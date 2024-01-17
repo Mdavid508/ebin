@@ -1,4 +1,3 @@
-import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:flutter/material.dart';
 

@@ -1,6 +1,7 @@
 import 'package:ebin/Assets/Theme/custom_theme/chips_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/outlined_button_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/tab_bar_theme.dart';
+import 'package:ebin/Assets/Theme/custom_theme/text_field_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
@@ -20,6 +21,7 @@ class MyAppTheme {
     chipTheme: MyAppChipTheme.lightChipTheme,
     outlinedButtonTheme: MyAppOutlinedButtonTheme.lightOutlinedTheme,
     primaryColor: MyAppColors.primaryColor,
+    inputDecorationTheme: MyAppTextField.lightTextField,
   );
 
   static ThemeData darkTheme = ThemeData(

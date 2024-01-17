@@ -1,7 +1,9 @@
+import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/pages/individuals/navigation_menu.dart';
 import 'package:ebin/pages/individuals/screens_monitors.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 //class for storing the small equipments items.
 class ItemSmallEquipment {
@@ -67,9 +69,16 @@ class _MySmallEquipmentsListState extends State<MySmallEquipmentsList> {
           final item = items[index];
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              showMaterialModalBottomSheet(
+                isDismissible: false,
+                enableDrag: true,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12))),
+                context: context,
                 builder: (context) => MySmallEquipmentsAddition(item: item),
-              ));
+              );
             },
             child:
                 MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
@@ -80,21 +89,148 @@ class _MySmallEquipmentsListState extends State<MySmallEquipmentsList> {
   }
 }
 
-class MySmallEquipmentsAddition extends StatelessWidget {
+class MySmallEquipmentsAddition extends StatefulWidget {
   const MySmallEquipmentsAddition({super.key, required this.item});
 
   final ItemSmallEquipment item;
 
   @override
+  State<MySmallEquipmentsAddition> createState() =>
+      _MySmallEquipmentsAdditionState();
+}
+
+class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
+  final textTheme = MyAppTextTheme.lightTheme;
+  bool isButtonActive = true;
+  late TextEditingController controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = TextEditingController();
+    controller.addListener(() {
+      final isButtonActive = controller.text.isNotEmpty;
+      setState(() {
+        this.isButtonActive = isButtonActive;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Small Equipments'),
-      ),
-      body: Center(
-        child: Column(
-          children: [Text(item.itemName), Text(item.url)],
-        ),
+    String eol = widget.item.eol.toString();
+    String itemName = widget.item.itemName;
+    DateTime selectedDate = DateTime.now();
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Container(
+              alignment: Alignment.center,
+              height: 65,
+              margin: const EdgeInsets.only(bottom: 0),
+              decoration: const BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(width: 1, color: Colors.black))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Add Electronic Item",
+                    style: textTheme.titleMedium,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close))
+                ],
+              ),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              child: Column(
+                children: [
+                  TextField(
+                    enabled: false,
+                    cursorColor: MyAppColors.outline,
+                    decoration: InputDecoration(labelText: itemName),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    enabled: false,
+                    decoration: InputDecoration(labelText: '$eol Years'),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  OutlinedButton(
+                      onPressed: () async {
+                        final DateTime? dateTime = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2024));
+                        if (dateTime != null) {
+                          setState(() {
+                            selectedDate = dateTime;
+                          });
+                        }
+                      },
+                      child: const Text('Select date of Purchase')),
+                  Container(
+                    height: 56,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border:
+                            Border.all(width: 1, color: MyAppColors.outline)),
+                    child: Text(selectedDate.toString()),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  TextField(
+                    cursorColor: MyAppColors.outline,
+                    decoration: const InputDecoration(
+                      labelText: 'Enter Brand',
+                    ),
+                    controller: controller,
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  FilledButton(
+                      onPressed: isButtonActive
+                          ? () {
+                              setState(() {
+                                isButtonActive = false;
+                                controller.clear();
+                              });
+                            }
+                          : null,
+                      child: const Text('Save')),
+                ],
+              ),
+            ),
+          )
+        ],
       ),
     );
   }
