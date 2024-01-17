@@ -177,9 +177,6 @@ class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
                     enabled: false,
                     decoration: InputDecoration(labelText: '$eol Years'),
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
                   OutlinedButton(
                       onPressed: () async {
                         final DateTime? dateTime = await showDatePicker(
