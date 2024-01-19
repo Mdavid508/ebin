@@ -1,6 +1,9 @@
+import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/pages/individuals/navigation_menu.dart';
+
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class MyScreensSection extends StatefulWidget {
   const MyScreensSection({super.key});
@@ -101,9 +104,16 @@ class _MyScreensListState extends State<MyScreensList> {
             final item = items[index];
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
+                showMaterialModalBottomSheet(
+                  isDismissible: false,
+                  enableDrag: true,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12))),
+                  context: context,
                   builder: (context) => MyScreensItemsAddition(item: item),
-                ));
+                );
               },
               child: MyCategoryItemBuilder(
                 image: item.url,
@@ -171,21 +181,141 @@ class ItemScreen {
 }
 
 //Addition to the database and display to the required page
-class MyScreensItemsAddition extends StatelessWidget {
+
+//void function to display date picker
+
+class MyScreensItemsAddition extends StatefulWidget {
   const MyScreensItemsAddition({super.key, required this.item});
 
   final ItemScreen item;
 
   @override
+  State<MyScreensItemsAddition> createState() => _MyScreensItemsAdditionState();
+}
+
+class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
+  DateTime selectedDate = DateTime.now();
+  TextTheme textTheme = MyAppTextTheme.lightTheme;
+  TextEditingController controllerItemName = TextEditingController();
+  TextEditingController controllerEol = TextEditingController();
+  TextEditingController controllerDate = TextEditingController();
+  TextEditingController controllerBrand = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controllerItemName.text = widget.item.itemName;
+    controllerEol.text = widget.item.eol.toString();
+    controllerDate.addListener(() {
+      controllerDate.text = selectedDate.year.toString();
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controllerItemName.dispose();
+    controllerEol.dispose();
+    controllerDate.dispose();
+    controllerBrand.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Items Screens'),
-      ),
-      body: Center(
-        child: Column(
-          children: [Text(item.itemName), Text(item.url)],
-        ),
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            height: 65,
+            margin: const EdgeInsets.only(bottom: 0),
+            decoration: const BoxDecoration(
+                border:
+                    Border(bottom: BorderSide(width: 1, color: Colors.black))),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Add Electronic Item",
+                    style: textTheme.titleMedium,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close))
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Form(
+                child: Column(
+              children: [
+                TextFormField(
+                  controller: controllerItemName,
+                  readOnly: true,
+                  cursorColor: MyAppColors.outline,
+                  decoration:
+                      const InputDecoration(labelText: 'Electronic Item Name'),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  controller: controllerEol,
+                  readOnly: true,
+                  decoration: const InputDecoration(labelText: 'End of Life'),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  onTap: () async {
+                    DateTime? datePicker = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2030));
+                    if (datePicker != null && datePicker != selectedDate) {
+                      setState(() {
+                        selectedDate = datePicker;
+                      });
+                    }
+                  },
+                  controller: controllerDate,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                      icon: Icon(Icons.calendar_today),
+                      labelText: 'Select Date of Purchase'),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextFormField(
+                  controller: controllerBrand,
+                  cursorColor: MyAppColors.outline,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter Brand',
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                FilledButton(onPressed: () {}, child: const Text("Save"))
+              ],
+            )),
+          )
+        ],
       ),
     );
   }

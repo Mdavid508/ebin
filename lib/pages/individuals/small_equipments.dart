@@ -101,34 +101,36 @@ class MySmallEquipmentsAddition extends StatefulWidget {
 
 class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
   final textTheme = MyAppTextTheme.lightTheme;
-  bool isButtonActive = true;
-  late TextEditingController controller;
+  late TextEditingController controllerItemName;
+  late TextEditingController controllerEol;
+  TextEditingController controllerDate = TextEditingController();
+
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-    controller = TextEditingController();
-    controller.addListener(() {
-      final isButtonActive = controller.text.isNotEmpty;
-      setState(() {
-        this.isButtonActive = isButtonActive;
-      });
+    controllerItemName = TextEditingController(text: widget.item.itemName);
+    controllerEol =
+        TextEditingController(text: '${widget.item.eol.toString()} Years');
+    controllerDate.addListener(() {
+      controllerDate.text = selectedDate.year.toString();
     });
+
+    super.initState();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    controller.dispose();
+    controllerItemName.dispose();
+    controllerEol.dispose();
+    controllerDate.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    String eol = widget.item.eol.toString();
-    String itemName = widget.item.itemName;
-    DateTime selectedDate = DateTime.now();
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -160,71 +162,63 @@ class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
               ),
             ),
           ),
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Column(
-                children: [
-                  TextField(
-                    enabled: false,
-                    cursorColor: MyAppColors.outline,
-                    decoration: InputDecoration(labelText: itemName),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            child: Column(
+              children: [
+                TextField(
+                  controller: controllerItemName,
+                  readOnly: true,
+                  cursorColor: MyAppColors.outline,
+                  decoration:
+                      const InputDecoration(labelText: 'Electronic item'),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextField(
+                  readOnly: true,
+                  controller: controllerEol,
+                  decoration: const InputDecoration(labelText: 'End of Life '),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                TextField(
+                  controller: controllerDate,
+                  readOnly: true,
+                  onTap: () async {
+                    DateTime? datePicker = await showDatePicker(
+                        context: context,
+                        initialDate: selectedDate,
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2030));
+                    if (datePicker != null && datePicker != selectedDate) {
+                      setState(() {
+                        selectedDate = datePicker;
+                      });
+                    }
+                  },
+                  decoration: const InputDecoration(
+                      icon: Icon(
+                        Icons.calendar_today,
+                      ),
+                      labelText: 'Select year of Purchase'),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const TextField(
+                  cursorColor: MyAppColors.outline,
+                  decoration: InputDecoration(
+                    labelText: 'Enter Brand',
                   ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    enabled: false,
-                    decoration: InputDecoration(labelText: '$eol Years'),
-                  ),
-                  OutlinedButton(
-                      onPressed: () async {
-                        final DateTime? dateTime = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2024));
-                        if (dateTime != null) {
-                          setState(() {
-                            selectedDate = dateTime;
-                          });
-                        }
-                      },
-                      child: const Text('Select date of Purchase')),
-                  Container(
-                    height: 56,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border:
-                            Border.all(width: 1, color: MyAppColors.outline)),
-                    child: Text(selectedDate.toString()),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  TextField(
-                    cursorColor: MyAppColors.outline,
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Brand',
-                    ),
-                    controller: controller,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  FilledButton(
-                      onPressed: isButtonActive
-                          ? () {
-                              setState(() {
-                                isButtonActive = false;
-                                controller.clear();
-                              });
-                            }
-                          : null,
-                      child: const Text('Save')),
-                ],
-              ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                FilledButton(onPressed: () {}, child: const Text('Save')),
+              ],
             ),
           )
         ],

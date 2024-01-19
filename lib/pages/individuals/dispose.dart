@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+const LatLng currentLocation = LatLng(-1.2833300, 36.8166700);
 
 class IndividualDisposePage extends StatefulWidget {
   const IndividualDisposePage({super.key});
@@ -15,8 +18,9 @@ class _IndividualDisposePageState extends State<IndividualDisposePage> {
           leading: null,
           title: const Text('Dispose Page'),
         ),
-        body: const Column(
-          children: [Text('data')],
+        body: const GoogleMap(
+          initialCameraPosition:
+              CameraPosition(target: currentLocation, zoom: 14),
         ));
   }
 }
