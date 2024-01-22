@@ -12,7 +12,20 @@
           "package_name": "com.ewastecollection.ebin"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "824469135465-qkrfu1p5rev4uhisjqkivt9uael0d86d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ewastecollection.ebin",
+            "certificate_hash": "007d037d0a59bd9163fe2b5208577f63fa375e1e"
+          }
+        },
+        {
+          "client_id": "824469135465-mjbmed8i59dq91dqq74pi1k04l54n18q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA_51Gh_jMGJXGbMyBWB9YP8J2JxlwyfbI"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824469135465-mjbmed8i59dq91dqq74pi1k04l54n18q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "824469135465-dkpnbqcsu3u193ir1991mahiu6bompoh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ewastecollection.ebin"
+              }
+            }
+          ]
         }
       }
     }

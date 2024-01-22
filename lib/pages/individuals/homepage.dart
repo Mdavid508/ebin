@@ -1,6 +1,5 @@
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/pages/individuals/it_equipments.dart';
-import 'package:ebin/pages/individuals/navigation_menu.dart';
 import 'package:ebin/pages/individuals/others.dart';
 import 'package:ebin/pages/individuals/screens_monitors.dart';
 import 'package:ebin/pages/individuals/small_equipments.dart';

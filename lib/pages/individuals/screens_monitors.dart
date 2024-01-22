@@ -203,7 +203,6 @@ class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
 
   @override
   void initState() {
-    // TODO: implement initState
     controllerItemName.text = widget.item.itemName;
     controllerEol.text = widget.item.eol.toString();
     controllerDate.addListener(() {

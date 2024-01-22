@@ -1,7 +1,6 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/pages/individuals/navigation_menu.dart';
-import 'package:ebin/pages/individuals/others.dart';
 import 'package:ebin/pages/individuals/screens_monitors.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
