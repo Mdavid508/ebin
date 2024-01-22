@@ -2,7 +2,6 @@ import 'package:ebin/pages/onboarding1.dart';
 import 'package:flutter/material.dart';
 import 'package:ebin/Assets/Theme/theme.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
@@ -16,14 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: MyAppTheme.theme,
-      home:  const Onboarding1(), 
+      home: const Onboarding1(),
     );
   }
 }
-
-
-
-
-
-
-
