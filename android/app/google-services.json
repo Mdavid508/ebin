@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824469135465",
+    "project_id": "ebin-411308",
+    "storage_bucket": "ebin-411308.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824469135465:android:85cbff2926488eff24c2f8",
+        "android_client_info": {
+          "package_name": "com.ewastecollection.ebin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_51Gh_jMGJXGbMyBWB9YP8J2JxlwyfbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
