@@ -1,7 +1,7 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/navigation_menu.dart';
-import 'package:ebin/pages/individuals/screens_monitors.dart';
+import 'package:ebin/views/individuals/navigation_menu.dart';
+import 'package:ebin/views/individuals/screens_monitors.dart';
 import 'package:flutter/material.dart' hide ModalBottomSheetRoute;
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
@@ -109,7 +109,7 @@ class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    //
     controllerItemName = TextEditingController(text: widget.item.itemName);
     controllerEol =
         TextEditingController(text: '${widget.item.eol.toString()} Years');
@@ -122,7 +122,6 @@ class _MySmallEquipmentsAdditionState extends State<MySmallEquipmentsAddition> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controllerItemName.dispose();
     controllerEol.dispose();
     controllerDate.dispose();

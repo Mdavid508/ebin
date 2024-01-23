@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class User {
+class UserModel {
   String userId;
   String email;
   String name;
   String profileUrl;
   String userType;
 
-  User({
+  UserModel({
     required this.userId,
     required this.email,
     required this.name,
@@ -27,8 +27,8 @@ class User {
   }
 
   // get a single User from a firebase document
-  static User fromDocument(DocumentSnapshot snapshot) {
-    return User(
+  static UserModel fromDocument(DocumentSnapshot snapshot) {
+    return UserModel(
       userId: snapshot['userId'],
       email: snapshot['email'],
       name: snapshot['name'],
@@ -38,9 +38,9 @@ class User {
   }
 
   // list of User from a firebase collection
-  static List<User> fromQuerySnapshot(QuerySnapshot snapshots) {
+  static List<UserModel> fromQuerySnapshot(QuerySnapshot snapshots) {
     return snapshots.docs
-        .map((document) => User.fromDocument(document))
+        .map((document) => UserModel.fromDocument(document))
         .toList();
   }
 }

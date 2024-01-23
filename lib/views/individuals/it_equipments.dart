@@ -1,27 +1,32 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/navigation_menu.dart';
-import 'package:ebin/pages/individuals/screens_monitors.dart';
+import 'package:ebin/views/individuals/navigation_menu.dart';
+import 'package:ebin/views/individuals/screens_monitors.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ItemOthers {
+class ItemItEquipment {
   final String itemName;
   final String url;
   final int eol;
 
-  const ItemOthers(
-      {required this.itemName, required this.url, required this.eol});
+  const ItemItEquipment({
+    required this.itemName,
+    required this.url,
+    required this.eol,
+  });
 }
 
-class MyOthersDevicesSection extends StatefulWidget {
-  const MyOthersDevicesSection({super.key});
+class MyItEquipmentsSection extends StatefulWidget {
+  const MyItEquipmentsSection({super.key});
 
   @override
-  State<MyOthersDevicesSection> createState() => _MyOthersDevicesSectionState();
+  State<MyItEquipmentsSection> createState() => _MyItEquipmentsSectionState();
 }
 
-class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
+class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
+  List<ItemItEquipment> items = [];
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,9 +38,10 @@ class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
               alignment: WrapAlignment.start,
               spacing: 16,
               children: [
-                Chip(label: Text('Headphones')),
-                Chip(label: Text('Radios')),
-                Chip(label: Text('DVDs')),
+                Chip(label: Text('Desktop PCs')),
+                Chip(label: Text('Routers')),
+                Chip(label: Text('Keyboards')),
+                Chip(label: Text('Smart Phones')),
               ],
             ),
           ]),
@@ -55,10 +61,10 @@ class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
             children: [
               const MyCategoryContainerBuilder(
                   image:
-                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/kjwfrwPouDBA3Xh6.standard',
-                  categoriesHeading: 'Others',
+                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/4Tba1Ob6xOYGVFPr.standard',
+                  categoriesHeading: 'IT Equipments',
                   categories:
-                      'Refrigerators, Dish washing machines, Ovens, Washing Machines, Air Conditioning Equipments, Flourescent bulbs, Cameras'),
+                      'Mobile Phones, SmartPhones, Computers, Laptops, Tablets, Fax machines, Routers, Printers and Scanners'),
               const SizedBox(
                 height: 8,
               ),
@@ -67,13 +73,10 @@ class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyOthersList(),
+                          builder: (context) => const MyItEquipmentsList(),
                         ));
                   },
-                  icon: const Icon(
-                    Icons.add,
-                    color: MyAppColors.primaryColor,
-                  ),
+                  icon: const Icon(Icons.add),
                   label: const Text("Add Your electronic device")),
             ],
           ),
@@ -83,87 +86,94 @@ class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
   }
 }
 
-class MyOthersList extends StatefulWidget {
-  const MyOthersList({super.key});
+class MyItEquipmentsList extends StatefulWidget {
+  const MyItEquipmentsList({super.key});
 
   @override
-  State<MyOthersList> createState() => _MyOthersListState();
+  State<MyItEquipmentsList> createState() => _MyItEquipmentsListState();
 }
 
-class _MyOthersListState extends State<MyOthersList> {
-  List<ItemOthers> items = [
-    const ItemOthers(
-        itemName: 'Refrigerators',
+class _MyItEquipmentsListState extends State<MyItEquipmentsList> {
+  List<ItemItEquipment> items = [
+    const ItemItEquipment(
+        itemName: 'Smart Phones',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/OTobQvcACkEOXqnt.standard',
-        eol: 15),
-    const ItemOthers(
-        itemName: 'Flourescent Bulbs',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/4Tba1Ob6xOYGVFPr.standard',
+        eol: 4),
+    const ItemItEquipment(
+        itemName: "computers",
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/TO2KOKWCQwErIOIB.standard',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/ZIOFkHSxJKUAXbok.standard',
+        eol: 5),
+    const ItemItEquipment(
+        itemName: 'Laptop',
+        url:
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/2Fw5b5NJLuVgHZT5.standard',
+        eol: 5),
+    const ItemItEquipment(
+        itemName: 'Tablets',
+        url:
+            'https://imgs.search.brave.com/cBBCwsWwT1ulkeG_U8fcGaO1Hdm7egpRgi74UY5KQd8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9waXNj/ZXMuYmJ5c3RhdGlj/LmNvbS9pbWFnZTIv/QmVzdEJ1eV9VUy9H/YWxsZXJ5L1NPTC02/ODc5Mi1UYWJsZXRz/QnV5aW5nR3VpZGUt/QnJhbmRzLVNhbXN1/bmctMTc4NDk2Lmpw/Zw',
         eol: 7),
-    const ItemOthers(
-        itemName: 'Dishwasher',
+    const ItemItEquipment(
+        itemName: 'Printers',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/SWNvLX2OPtwbZQEm.standard',
-        eol: 12),
-    const ItemOthers(
-        itemName: 'Oven',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/2DMFPrRlCPd5aSdQ.standard',
+        eol: 7),
+    const ItemItEquipment(
+        itemName: 'Routerss',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/B3RClyjOcIQPEupb.standard',
-        eol: 15),
-    const ItemOthers(
-        itemName: 'Washing Machine',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/jVgpFGL5aFDjjGjR.standard',
+        eol: 7),
+    const ItemItEquipment(
+        itemName: 'Fax Machines',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/xsTFtlYMMNelKanL.standard',
-        eol: 12),
-    const ItemOthers(
-        itemName: 'Air Conditioning Equipments',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/NjHtoJkyHUqiXAa5.standard',
-        eol: 12),
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/1dvFccM53YUUkoT5.standard',
+        eol: 7)
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Others'),
+        title: const Text('IT Equipments'),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: items.length,
         itemBuilder: (context, index) {
           final item = items[index];
+
           return GestureDetector(
-              onTap: () {
-                showMaterialModalBottomSheet(
-                  isDismissible: false,
-                  enableDrag: true,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12))),
-                  context: context,
-                  builder: (context) => MyOthersItemsAddition(item: item),
-                );
-              },
-              child: MyCategoryItemBuilder(
-                  image: item.url, itemName: item.itemName));
+            onTap: () {
+              showMaterialModalBottomSheet(
+                isDismissible: false,
+                enableDrag: true,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12))),
+                context: context,
+                builder: (context) => MyItEquipmentsAddition(item: item),
+              );
+            },
+            child:
+                MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
+          );
         },
       ),
     );
   }
 }
 
-class MyOthersItemsAddition extends StatefulWidget {
-  const MyOthersItemsAddition({super.key, required this.item});
-  final ItemOthers item;
+class MyItEquipmentsAddition extends StatefulWidget {
+  const MyItEquipmentsAddition({super.key, required this.item});
+  final ItemItEquipment item;
 
   @override
-  State<MyOthersItemsAddition> createState() => _MyOthersItemsAdditionState();
+  State<MyItEquipmentsAddition> createState() => _MyItEquipmentsAdditionState();
 }
 
-class _MyOthersItemsAdditionState extends State<MyOthersItemsAddition> {
+class _MyItEquipmentsAdditionState extends State<MyItEquipmentsAddition> {
   TextTheme textTheme = MyAppTextTheme.lightTheme;
   DateTime selectedDate = DateTime.now();
   TextEditingController controllerItemName = TextEditingController();
@@ -173,7 +183,6 @@ class _MyOthersItemsAdditionState extends State<MyOthersItemsAddition> {
 
   @override
   void initState() {
-    // TODO: implement initState
     controllerItemName.text = widget.item.itemName;
     controllerEol.text = widget.item.eol.toString();
     controllerBrand.text = '';
@@ -185,11 +194,10 @@ class _MyOthersItemsAdditionState extends State<MyOthersItemsAddition> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controllerItemName.dispose();
+    controllerEol.dispose();
     controllerBrand.dispose();
     controllerDate.dispose();
-    controllerEol.dispose();
     super.dispose();
   }
 
@@ -202,32 +210,31 @@ class _MyOthersItemsAdditionState extends State<MyOthersItemsAddition> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             alignment: Alignment.center,
             height: 65,
             margin: const EdgeInsets.only(bottom: 0),
             decoration: const BoxDecoration(
                 border:
                     Border(bottom: BorderSide(width: 1, color: Colors.black))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Add Electronic Item",
-                    style: textTheme.titleMedium,
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close))
-                ],
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Add Electronic Item",
+                  style: textTheme.titleMedium,
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.close))
+              ],
             ),
           ),
+          //where we will have the textformfield
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
             child: Form(
                 child: Column(
               children: [

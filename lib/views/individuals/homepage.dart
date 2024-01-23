@@ -1,8 +1,8 @@
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/it_equipments.dart';
-import 'package:ebin/pages/individuals/others.dart';
-import 'package:ebin/pages/individuals/screens_monitors.dart';
-import 'package:ebin/pages/individuals/small_equipments.dart';
+import 'package:ebin/views/individuals/it_equipments.dart';
+import 'package:ebin/views/individuals/others.dart';
+import 'package:ebin/views/individuals/screens_monitors.dart';
+import 'package:ebin/views/individuals/small_equipments.dart';
 import 'package:flutter/material.dart';
 
 class IndividualHomePage extends StatefulWidget {

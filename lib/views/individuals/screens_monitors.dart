@@ -1,32 +1,18 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/navigation_menu.dart';
-import 'package:ebin/pages/individuals/screens_monitors.dart';
+import 'package:ebin/views/individuals/navigation_menu.dart';
+
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ItemItEquipment {
-  final String itemName;
-  final String url;
-  final int eol;
-
-  const ItemItEquipment({
-    required this.itemName,
-    required this.url,
-    required this.eol,
-  });
-}
-
-class MyItEquipmentsSection extends StatefulWidget {
-  const MyItEquipmentsSection({super.key});
+class MyScreensSection extends StatefulWidget {
+  const MyScreensSection({super.key});
 
   @override
-  State<MyItEquipmentsSection> createState() => _MyItEquipmentsSectionState();
+  State<MyScreensSection> createState() => _MyScreensSectionState();
 }
 
-class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
-  List<ItemItEquipment> items = [];
-
+class _MyScreensSectionState extends State<MyScreensSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -38,10 +24,9 @@ class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
               alignment: WrapAlignment.start,
               spacing: 16,
               children: [
-                Chip(label: Text('Desktop PCs')),
-                Chip(label: Text('Routers')),
-                Chip(label: Text('Keyboards')),
-                Chip(label: Text('Smart Phones')),
+                Chip(label: Text('Laptops')),
+                Chip(label: Text('Tablets')),
+                Chip(label: Text('Flat Panel Display')),
               ],
             ),
           ]),
@@ -61,10 +46,9 @@ class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
             children: [
               const MyCategoryContainerBuilder(
                   image:
-                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/4Tba1Ob6xOYGVFPr.standard',
-                  categoriesHeading: 'IT Equipments',
-                  categories:
-                      'Mobile Phones, SmartPhones, Computers, Laptops, Tablets, Fax machines, Routers, Printers and Scanners'),
+                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/3tWdqRoMU63cuci1.standard',
+                  categoriesHeading: 'Screens and Monitors',
+                  categories: 'CRT monitors, Flat panel Display'),
               const SizedBox(
                 height: 8,
               ),
@@ -73,10 +57,13 @@ class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyItEquipmentsList(),
+                          builder: (context) => const MyScreensList(),
                         ));
                   },
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(
+                    Icons.add,
+                    color: MyAppColors.primaryColor,
+                  ),
                   label: const Text("Add Your electronic device")),
             ],
           ),
@@ -86,96 +73,129 @@ class _MyItEquipmentsSectionState extends State<MyItEquipmentsSection> {
   }
 }
 
-class MyItEquipmentsList extends StatefulWidget {
-  const MyItEquipmentsList({super.key});
+class MyScreensList extends StatefulWidget {
+  const MyScreensList({super.key});
 
   @override
-  State<MyItEquipmentsList> createState() => _MyItEquipmentsListState();
+  State<MyScreensList> createState() => _MyScreensListState();
 }
 
-class _MyItEquipmentsListState extends State<MyItEquipmentsList> {
-  List<ItemItEquipment> items = [
-    const ItemItEquipment(
-        itemName: 'Smart Phones',
+class _MyScreensListState extends State<MyScreensList> {
+  List<ItemScreen> items = [
+    const ItemScreen(
+        itemName: 'CRT monitors',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/4Tba1Ob6xOYGVFPr.standard',
-        eol: 4),
-    const ItemItEquipment(
-        itemName: "computers",
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/ZIOFkHSxJKUAXbok.standard',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/ZiaEAG25VU1DFoRb.standard',
         eol: 5),
-    const ItemItEquipment(
-        itemName: 'Laptop',
+    const ItemScreen(
+        itemName: 'Flat Panel Display',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/2Fw5b5NJLuVgHZT5.standard',
-        eol: 5),
-    const ItemItEquipment(
-        itemName: 'Tablets',
-        url:
-            'https://imgs.search.brave.com/cBBCwsWwT1ulkeG_U8fcGaO1Hdm7egpRgi74UY5KQd8/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9waXNj/ZXMuYmJ5c3RhdGlj/LmNvbS9pbWFnZTIv/QmVzdEJ1eV9VUy9H/YWxsZXJ5L1NPTC02/ODc5Mi1UYWJsZXRz/QnV5aW5nR3VpZGUt/QnJhbmRzLVNhbXN1/bmctMTc4NDk2Lmpw/Zw',
-        eol: 7),
-    const ItemItEquipment(
-        itemName: 'Printers',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/2DMFPrRlCPd5aSdQ.standard',
-        eol: 7),
-    const ItemItEquipment(
-        itemName: 'Routerss',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/jVgpFGL5aFDjjGjR.standard',
-        eol: 7),
-    const ItemItEquipment(
-        itemName: 'Fax Machines',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/1dvFccM53YUUkoT5.standard',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/wM2kRyOS5RVrxUKs.standard',
         eol: 7)
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('IT Equipments'),
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-
-          return GestureDetector(
-            onTap: () {
-              showMaterialModalBottomSheet(
-                isDismissible: false,
-                enableDrag: true,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12))),
-                context: context,
-                builder: (context) => MyItEquipmentsAddition(item: item),
-              );
-            },
-            child:
-                MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
-          );
-        },
-      ),
-    );
+        appBar: AppBar(title: const Text("Screens and Monitors")),
+        body: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            final item = items[index];
+            return GestureDetector(
+              onTap: () {
+                showMaterialModalBottomSheet(
+                  isDismissible: false,
+                  enableDrag: true,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12))),
+                  context: context,
+                  builder: (context) => MyScreensItemsAddition(item: item),
+                );
+              },
+              child: MyCategoryItemBuilder(
+                image: item.url,
+                itemName: item.itemName,
+              ),
+            );
+          },
+        ));
   }
 }
 
-class MyItEquipmentsAddition extends StatefulWidget {
-  const MyItEquipmentsAddition({super.key, required this.item});
-  final ItemItEquipment item;
+class MyCategoryItemBuilder extends StatelessWidget {
+  const MyCategoryItemBuilder(
+      {super.key, required this.image, required this.itemName});
+
+  final String image;
+  final String itemName;
 
   @override
-  State<MyItEquipmentsAddition> createState() => _MyItEquipmentsAdditionState();
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      height: 100,
+      width: double.infinity,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          color: MyAppColors.surfaceLightColor),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Image.network(
+              image,
+              height: 100,
+              width: 100,
+              fit: BoxFit.cover,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  itemName,
+                  softWrap: true,
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  ontap() {}
 }
 
-class _MyItEquipmentsAdditionState extends State<MyItEquipmentsAddition> {
-  TextTheme textTheme = MyAppTextTheme.lightTheme;
+class ItemScreen {
+  final String itemName;
+  final String url;
+  final int eol;
+
+//constructor of this class.
+  const ItemScreen(
+      {required this.itemName, required this.url, required this.eol});
+}
+
+//Addition to the database and display to the required page
+
+//void function to display date picker
+
+class MyScreensItemsAddition extends StatefulWidget {
+  const MyScreensItemsAddition({super.key, required this.item});
+
+  final ItemScreen item;
+
+  @override
+  State<MyScreensItemsAddition> createState() => _MyScreensItemsAdditionState();
+}
+
+class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
   DateTime selectedDate = DateTime.now();
+  TextTheme textTheme = MyAppTextTheme.lightTheme;
   TextEditingController controllerItemName = TextEditingController();
   TextEditingController controllerEol = TextEditingController();
   TextEditingController controllerDate = TextEditingController();
@@ -183,23 +203,21 @@ class _MyItEquipmentsAdditionState extends State<MyItEquipmentsAddition> {
 
   @override
   void initState() {
-    // TODO: implement initState
     controllerItemName.text = widget.item.itemName;
     controllerEol.text = widget.item.eol.toString();
-    controllerBrand.text = '';
     controllerDate.addListener(() {
       controllerDate.text = selectedDate.year.toString();
     });
+
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controllerItemName.dispose();
     controllerEol.dispose();
-    controllerBrand.dispose();
     controllerDate.dispose();
+    controllerBrand.dispose();
     super.dispose();
   }
 
@@ -212,31 +230,32 @@ class _MyItEquipmentsAdditionState extends State<MyItEquipmentsAddition> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
             alignment: Alignment.center,
             height: 65,
             margin: const EdgeInsets.only(bottom: 0),
             decoration: const BoxDecoration(
                 border:
                     Border(bottom: BorderSide(width: 1, color: Colors.black))),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Add Electronic Item",
-                  style: textTheme.titleMedium,
-                ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.close))
-              ],
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Add Electronic Item",
+                    style: textTheme.titleMedium,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: const Icon(Icons.close))
+                ],
+              ),
             ),
           ),
-          //where we will have the textformfield
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            padding: const EdgeInsets.all(16),
             child: Form(
                 child: Column(
               children: [

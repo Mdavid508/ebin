@@ -1,18 +1,27 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/navigation_menu.dart';
-
+import 'package:ebin/views/individuals/navigation_menu.dart';
+import 'package:ebin/views/individuals/screens_monitors.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class MyScreensSection extends StatefulWidget {
-  const MyScreensSection({super.key});
+class ItemOthers {
+  final String itemName;
+  final String url;
+  final int eol;
 
-  @override
-  State<MyScreensSection> createState() => _MyScreensSectionState();
+  const ItemOthers(
+      {required this.itemName, required this.url, required this.eol});
 }
 
-class _MyScreensSectionState extends State<MyScreensSection> {
+class MyOthersDevicesSection extends StatefulWidget {
+  const MyOthersDevicesSection({super.key});
+
+  @override
+  State<MyOthersDevicesSection> createState() => _MyOthersDevicesSectionState();
+}
+
+class _MyOthersDevicesSectionState extends State<MyOthersDevicesSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -24,9 +33,9 @@ class _MyScreensSectionState extends State<MyScreensSection> {
               alignment: WrapAlignment.start,
               spacing: 16,
               children: [
-                Chip(label: Text('Laptops')),
-                Chip(label: Text('Tablets')),
-                Chip(label: Text('Flat Panel Display')),
+                Chip(label: Text('Headphones')),
+                Chip(label: Text('Radios')),
+                Chip(label: Text('DVDs')),
               ],
             ),
           ]),
@@ -46,9 +55,10 @@ class _MyScreensSectionState extends State<MyScreensSection> {
             children: [
               const MyCategoryContainerBuilder(
                   image:
-                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/3tWdqRoMU63cuci1.standard',
-                  categoriesHeading: 'Screens and Monitors',
-                  categories: 'CRT monitors, Flat panel Display'),
+                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/kjwfrwPouDBA3Xh6.standard',
+                  categoriesHeading: 'Others',
+                  categories:
+                      'Refrigerators, Dish washing machines, Ovens, Washing Machines, Air Conditioning Equipments, Flourescent bulbs, Cameras'),
               const SizedBox(
                 height: 8,
               ),
@@ -57,7 +67,7 @@ class _MyScreensSectionState extends State<MyScreensSection> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MyScreensList(),
+                          builder: (context) => const MyOthersList(),
                         ));
                   },
                   icon: const Icon(
@@ -73,36 +83,58 @@ class _MyScreensSectionState extends State<MyScreensSection> {
   }
 }
 
-class MyScreensList extends StatefulWidget {
-  const MyScreensList({super.key});
+class MyOthersList extends StatefulWidget {
+  const MyOthersList({super.key});
 
   @override
-  State<MyScreensList> createState() => _MyScreensListState();
+  State<MyOthersList> createState() => _MyOthersListState();
 }
 
-class _MyScreensListState extends State<MyScreensList> {
-  List<ItemScreen> items = [
-    const ItemScreen(
-        itemName: 'CRT monitors',
+class _MyOthersListState extends State<MyOthersList> {
+  List<ItemOthers> items = [
+    const ItemOthers(
+        itemName: 'Refrigerators',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/ZiaEAG25VU1DFoRb.standard',
-        eol: 5),
-    const ItemScreen(
-        itemName: 'Flat Panel Display',
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/OTobQvcACkEOXqnt.standard',
+        eol: 15),
+    const ItemOthers(
+        itemName: 'Flourescent Bulbs',
         url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/wM2kRyOS5RVrxUKs.standard',
-        eol: 7)
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/TO2KOKWCQwErIOIB.standard',
+        eol: 7),
+    const ItemOthers(
+        itemName: 'Dishwasher',
+        url:
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/SWNvLX2OPtwbZQEm.standard',
+        eol: 12),
+    const ItemOthers(
+        itemName: 'Oven',
+        url:
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/B3RClyjOcIQPEupb.standard',
+        eol: 15),
+    const ItemOthers(
+        itemName: 'Washing Machine',
+        url:
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/xsTFtlYMMNelKanL.standard',
+        eol: 12),
+    const ItemOthers(
+        itemName: 'Air Conditioning Equipments',
+        url:
+            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/NjHtoJkyHUqiXAa5.standard',
+        eol: 12),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Screens and Monitors")),
-        body: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return GestureDetector(
+      appBar: AppBar(
+        title: const Text('Others'),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: items.length,
+        itemBuilder: (context, index) {
+          final item = items[index];
+          return GestureDetector(
               onTap: () {
                 showMaterialModalBottomSheet(
                   isDismissible: false,
@@ -112,90 +144,28 @@ class _MyScreensListState extends State<MyScreensList> {
                           topLeft: Radius.circular(12),
                           topRight: Radius.circular(12))),
                   context: context,
-                  builder: (context) => MyScreensItemsAddition(item: item),
+                  builder: (context) => MyOthersItemsAddition(item: item),
                 );
               },
               child: MyCategoryItemBuilder(
-                image: item.url,
-                itemName: item.itemName,
-              ),
-            );
-          },
-        ));
-  }
-}
-
-class MyCategoryItemBuilder extends StatelessWidget {
-  const MyCategoryItemBuilder(
-      {super.key, required this.image, required this.itemName});
-
-  final String image;
-  final String itemName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      height: 100,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          color: MyAppColors.surfaceLightColor),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.network(
-              image,
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  itemName,
-                  softWrap: true,
-                ),
-              ],
-            )
-          ],
-        ),
+                  image: item.url, itemName: item.itemName));
+        },
       ),
     );
   }
-
-  ontap() {}
 }
 
-class ItemScreen {
-  final String itemName;
-  final String url;
-  final int eol;
-
-//constructor of this class.
-  const ItemScreen(
-      {required this.itemName, required this.url, required this.eol});
-}
-
-//Addition to the database and display to the required page
-
-//void function to display date picker
-
-class MyScreensItemsAddition extends StatefulWidget {
-  const MyScreensItemsAddition({super.key, required this.item});
-
-  final ItemScreen item;
+class MyOthersItemsAddition extends StatefulWidget {
+  const MyOthersItemsAddition({super.key, required this.item});
+  final ItemOthers item;
 
   @override
-  State<MyScreensItemsAddition> createState() => _MyScreensItemsAdditionState();
+  State<MyOthersItemsAddition> createState() => _MyOthersItemsAdditionState();
 }
 
-class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
-  DateTime selectedDate = DateTime.now();
+class _MyOthersItemsAdditionState extends State<MyOthersItemsAddition> {
   TextTheme textTheme = MyAppTextTheme.lightTheme;
+  DateTime selectedDate = DateTime.now();
   TextEditingController controllerItemName = TextEditingController();
   TextEditingController controllerEol = TextEditingController();
   TextEditingController controllerDate = TextEditingController();
@@ -205,20 +175,19 @@ class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
   void initState() {
     controllerItemName.text = widget.item.itemName;
     controllerEol.text = widget.item.eol.toString();
+    controllerBrand.text = '';
     controllerDate.addListener(() {
       controllerDate.text = selectedDate.year.toString();
     });
-
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     controllerItemName.dispose();
-    controllerEol.dispose();
-    controllerDate.dispose();
     controllerBrand.dispose();
+    controllerDate.dispose();
+    controllerEol.dispose();
     super.dispose();
   }
 

@@ -1,10 +1,12 @@
-import 'package:ebin/pages/individuals/navigation_menu.dart';
-import 'package:ebin/pages/onboarding1.dart';
-import 'package:ebin/pages/widgets/usecasecontainer.dart';
+import 'package:ebin/controllers/auth_controller.dart';
+import 'package:ebin/views/onboarding1.dart';
+import 'package:ebin/views/widgets/usecasecontainer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MyUsecase extends StatelessWidget {
-  const MyUsecase({super.key});
+  MyUsecase({super.key});
+  final AuthController authController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -24,30 +26,28 @@ class MyUsecase extends StatelessWidget {
               runSpacing: 16.0,
               children: [
                 GestureDetector(
-                  onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const MyNavigationMenu(),
-                      )),
+                  //saving to the firebase.
+                  onTap: () async {
+                    authController.userType.value = 'Individual';
+                    authController.addUser();
+                  },
                   child: const MyUsecaseContainer(
                       image: 'Assets/images/individual.jpg',
                       text: "Individual"),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Onboarding1(),
-                      )),
+                  onTap: () {
+                    authController.userType.value = 'Collector';
+                    authController.addUser();
+                  },
                   child: const MyUsecaseContainer(
                       image: 'Assets/images/collector.jpg', text: "Collector"),
                 ),
                 GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Onboarding1(),
-                      )),
+                  onTap: () {
+                    authController.userType.value = 'Dismantler';
+                    authController.addUser();
+                  },
                   child: const MyUsecaseContainer(
                       image: 'Assets/images/dismantler.jpg',
                       text: "Dismantler"),

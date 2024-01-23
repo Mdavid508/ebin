@@ -1,5 +1,5 @@
-import 'package:ebin/pages/onboarding1.dart';
-import 'package:ebin/pages/authenication.dart';
+import 'package:ebin/views/onboarding1.dart';
+import 'package:ebin/views/authenication.dart';
 import 'package:flutter/material.dart';
 
 class Onboarding3 extends StatelessWidget {
@@ -48,7 +48,7 @@ class MyNextButton extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Authenication(),
+                builder: (context) => const Authenication(),
               ));
         },
         child: const Text('Next'));

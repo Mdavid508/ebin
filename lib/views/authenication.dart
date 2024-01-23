@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/controllers/signincontroller.dart';
+import 'package:ebin/controllers/auth_controller.dart';
 import 'package:ebin/custom_icons.dart';
-import 'package:ebin/pages/onboarding1.dart';
-import 'package:ebin/pages/usecase.dart';
+import 'package:ebin/views/onboarding1.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class Authenication extends StatelessWidget {
   const Authenication({super.key});
@@ -15,12 +12,12 @@ class Authenication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Padding(
-        padding: EdgeInsets.fromLTRB(16, 64, 16, 24),
+        padding: const EdgeInsets.fromLTRB(16, 64, 16, 24),
         child: Column(
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 MyHeadingSection(
@@ -28,11 +25,11 @@ class Authenication extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 40,
             ),
-            OnboardingImage(image: 'Assets/images/onboard4.jpg'),
-            SizedBox(
+            const OnboardingImage(image: 'Assets/images/onboard4.jpg'),
+            const SizedBox(
               height: 80,
             ),
             MyNextButton(),
@@ -44,15 +41,20 @@ class Authenication extends StatelessWidget {
 }
 
 class MyNextButton extends StatelessWidget {
-  const MyNextButton({super.key});
+  MyNextButton({super.key});
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton.icon(
-        icon: const Icon(
-          CustomIcons.logos_google_icon,
-          color: MyAppColors.errorColor,
-        ),
+    return Obx(
+      () => FilledButton.icon(
+        icon: authController.isLoading.value
+            ? const CircularProgressIndicator()
+            : const Icon(
+                CustomIcons.logos_google_icon,
+                color: MyAppColors.errorColor,
+              ),
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.white),
           foregroundColor:
@@ -64,17 +66,10 @@ class MyNextButton extends StatelessWidget {
           elevation: MaterialStateProperty.all(3),
         ),
         onPressed: () async {
-          try {
-            final user = await UserController.signInWithGoogle();
-            Get.to(const MyUsecase());
-          } on FirebaseException catch (error) {
-            print(error.message);
-            Get.snackbar('title', error.message ?? 'something went wrong');
-          } catch (e) {
-            print(e);
-            Get.snackbar('title', e.toString());
-          }
+          authController.signInWithGoogle();
         },
-        label: const Text('Continue with Google '));
+        label: const Text('Continue with Google '),
+      ),
+    );
   }
 }

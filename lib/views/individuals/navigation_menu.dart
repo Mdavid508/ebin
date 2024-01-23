@@ -1,9 +1,9 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/pages/individuals/activity.dart';
-import 'package:ebin/pages/individuals/dispose.dart';
-import 'package:ebin/pages/individuals/homepage.dart';
-import 'package:ebin/pages/individuals/profile.dart';
+import 'package:ebin/views/individuals/activity.dart';
+import 'package:ebin/views/individuals/dispose.dart';
+import 'package:ebin/views/individuals/homepage.dart';
+import 'package:ebin/views/individuals/profile.dart';
 import 'package:flutter/material.dart';
 
 class MyNavigationMenu extends StatefulWidget {
