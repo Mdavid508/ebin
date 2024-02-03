@@ -3,6 +3,7 @@ class ItemEol {
   final String url;
   final int eol;
   final String category;
+  final String? yearofPurchase;
 
 //constructor of this class.
   ItemEol({
@@ -10,5 +11,6 @@ class ItemEol {
     required this.url,
     required this.eol,
     required this.category,
+    this.yearofPurchase,
   });
 }
