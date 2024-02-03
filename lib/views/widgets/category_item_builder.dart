@@ -15,8 +15,9 @@ class MyCategoryItemBuilder extends StatelessWidget {
       height: 100,
       width: double.infinity,
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          color: MyAppColors.surfaceLightColor),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        color: MyAppColors.surfaceLightColor,
+      ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
         child: Row(

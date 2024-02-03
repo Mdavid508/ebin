@@ -94,14 +94,18 @@ class ItemAdditionBottomSheet extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      Obx(() => FilledButton.icon(
+                      Obx(
+                        () => FilledButton.icon(
                           onPressed: () async {
                             controller.addItem();
+                            controller.fetchAllItems();
                           },
                           icon: controller.isLoading.value
                               ? const CircularProgressIndicator()
                               : const Icon(Icons.save),
-                          label: const Text('Submit')))
+                          label: const Text('Submit'),
+                        ),
+                      ),
                     ],
                   )),
                 )
