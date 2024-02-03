@@ -1,9 +1,11 @@
 import 'package:ebin/constants/colors.dart';
+import 'package:ebin/controllers/items_controller.dart';
 import 'package:ebin/views/individuals/it_equipments.dart';
 import 'package:ebin/views/individuals/others.dart';
 import 'package:ebin/views/individuals/screens_monitors.dart';
 import 'package:ebin/views/individuals/small_equipments.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class IndividualHomePage extends StatefulWidget {
   const IndividualHomePage({super.key});
@@ -13,6 +15,7 @@ class IndividualHomePage extends StatefulWidget {
 }
 
 class _IndividualHomePageState extends State<IndividualHomePage> {
+  final ItemsController controller = Get.put(ItemsController());
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -24,8 +27,9 @@ class _IndividualHomePageState extends State<IndividualHomePage> {
           title: const Text("Add Your Electronics items"),
           actions: [
             IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.notifications_outlined))
+              onPressed: () {},
+              icon: const Icon(Icons.notifications_outlined),
+            )
           ],
           bottom: const TabBar(
             tabs: [
@@ -44,14 +48,14 @@ class _IndividualHomePageState extends State<IndividualHomePage> {
             ],
           ),
         ),
-        body: const Padding(
-          padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+        body: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
           child: TabBarView(
             children: [
               Center(child: MyScreensSection()),
-              Center(child: MyItEquipmentsSection()),
-              Center(child: MySmallEquipmentsSection()),
-              Center(child: MyOthersDevicesSection()),
+              const Center(child: MyItEquipmentsSection()),
+              const Center(child: MySmallEquipmentsSection()),
+              const Center(child: MyOthersDevicesSection()),
             ],
           ),
         ),

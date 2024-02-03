@@ -13,14 +13,12 @@ class IndividualDisposePage extends StatefulWidget {
 class _IndividualDisposePageState extends State<IndividualDisposePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          leading: null,
-          title: const Text('Dispose Page'),
-        ),
-        body: const GoogleMap(
-          initialCameraPosition:
-              CameraPosition(target: currentLocation, zoom: 14),
-        ));
+    return const Scaffold(
+        body: SafeArea(
+      child: GoogleMap(
+        initialCameraPosition:
+            CameraPosition(target: currentLocation, zoom: 14),
+      ),
+    ));
   }
 }

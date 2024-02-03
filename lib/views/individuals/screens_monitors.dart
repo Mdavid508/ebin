@@ -1,21 +1,26 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
+import 'package:ebin/controllers/items_controller.dart';
+import 'package:ebin/models/category.dart';
+
 import 'package:ebin/views/individuals/navigation_menu.dart';
+import 'package:ebin/views/widgets/category_item_builder.dart';
+import 'package:ebin/views/widgets/item_addition_bottomsheet.dart';
+import 'package:ebin/views/widgets/item_data.dart';
 
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:get/get.dart';
 
-class MyScreensSection extends StatefulWidget {
-  const MyScreensSection({super.key});
+class MyScreensSection extends StatelessWidget {
+  MyScreensSection({super.key});
 
-  @override
-  State<MyScreensSection> createState() => _MyScreensSectionState();
-}
+  final ItemsController controller = Get.put(ItemsController());
 
-class _MyScreensSectionState extends State<MyScreensSection> {
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = MyAppTextTheme.lightTheme;
     return Column(
+      mainAxisSize: MainAxisSize.max,
       children: [
         const SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -53,267 +58,100 @@ class _MyScreensSectionState extends State<MyScreensSection> {
                 height: 8,
               ),
               OutlinedButton.icon(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MyScreensList(),
-                        ));
-                  },
-                  icon: const Icon(
-                    Icons.add,
-                    color: MyAppColors.primaryColor,
-                  ),
-                  label: const Text("Add Your electronic device")),
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ScreenList(),
+                      ));
+                },
+                icon: const Icon(
+                  Icons.add,
+                  color: MyAppColors.primaryColor,
+                ),
+                label: const Text("Add Your electronic device"),
+              ),
             ],
           ),
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+        Column(
+          children: [
+            Obx(
+              () {
+                if (controller.isLoading.value == true) {
+                  return const CircularProgressIndicator();
+                }
+                if (controller.itemData.isEmpty) {
+                  return Text(
+                    'Add new items to determine end of life',
+                    style: textTheme.bodyMedium,
+                  );
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.itemData.length,
+                  itemBuilder: (context, index) {
+                    final item = controller.itemData[index];
+                    if (item.category != ItemCategory.screensAndMonitors) {
+                      return const SizedBox.shrink();
+                    }
+                    return ItemDataBuilder(
+                      itemName: item.itemName,
+                      brandName: item.brandName,
+                      eol: item.eol,
+                      yearofPurchase: item.yearOfPurchase,
+                    );
+                  },
+                );
+              },
+            ),
+          ],
         )
       ],
     );
   }
 }
 
-class MyScreensList extends StatefulWidget {
-  const MyScreensList({super.key});
+class ScreenList extends StatelessWidget {
+  ScreenList({super.key});
+  final ItemsController controller = Get.put(ItemsController());
 
-  @override
-  State<MyScreensList> createState() => _MyScreensListState();
-}
-
-class _MyScreensListState extends State<MyScreensList> {
-  List<ItemScreen> items = [
-    const ItemScreen(
-        itemName: 'CRT monitors',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/ZiaEAG25VU1DFoRb.standard',
-        eol: 5),
-    const ItemScreen(
-        itemName: 'Flat Panel Display',
-        url:
-            'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/wM2kRyOS5RVrxUKs.standard',
-        eol: 7)
-  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Screens and Monitors")),
-        body: ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-          itemCount: items.length,
-          itemBuilder: (context, index) {
-            final item = items[index];
-            return GestureDetector(
-              onTap: () {
-                showMaterialModalBottomSheet(
-                  isDismissible: false,
-                  enableDrag: true,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          topRight: Radius.circular(12))),
-                  context: context,
-                  builder: (context) => MyScreensItemsAddition(item: item),
-                );
-              },
-              child: MyCategoryItemBuilder(
-                image: item.url,
-                itemName: item.itemName,
-              ),
-            );
-          },
-        ));
-  }
-}
+      appBar: AppBar(title: const Text("Screens and Monitors")),
+      body: ListView.builder(
+        itemCount: controller.items.length,
+        itemBuilder: (context, index) {
+          final item = controller.items[index];
 
-class MyCategoryItemBuilder extends StatelessWidget {
-  const MyCategoryItemBuilder(
-      {super.key, required this.image, required this.itemName});
+          // filter only to display screens and monitors
+          if (item.category != ItemCategory.screensAndMonitors) {
+            return const SizedBox.shrink();
+          }
 
-  final String image;
-  final String itemName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      height: 100,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-          color: MyAppColors.surfaceLightColor),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.network(
-              image,
-              height: 100,
-              width: 100,
-              fit: BoxFit.cover,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  itemName,
-                  softWrap: true,
+          return GestureDetector(
+            onTap: () {
+              // set selected item
+              controller.selectedItem.value = item;
+              debugPrint("Clicked on item ${item.itemName}");
+              Get.bottomSheet(
+                BottomSheet(
+                  onClosing: () {},
+                  builder: (context) => ItemAdditionBottomSheet(),
                 ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  ontap() {}
-}
-
-class ItemScreen {
-  final String itemName;
-  final String url;
-  final int eol;
-
-//constructor of this class.
-  const ItemScreen(
-      {required this.itemName, required this.url, required this.eol});
-}
-
-//Addition to the database and display to the required page
-
-//void function to display date picker
-
-class MyScreensItemsAddition extends StatefulWidget {
-  const MyScreensItemsAddition({super.key, required this.item});
-
-  final ItemScreen item;
-
-  @override
-  State<MyScreensItemsAddition> createState() => _MyScreensItemsAdditionState();
-}
-
-class _MyScreensItemsAdditionState extends State<MyScreensItemsAddition> {
-  DateTime selectedDate = DateTime.now();
-  TextTheme textTheme = MyAppTextTheme.lightTheme;
-  TextEditingController controllerItemName = TextEditingController();
-  TextEditingController controllerEol = TextEditingController();
-  TextEditingController controllerDate = TextEditingController();
-  TextEditingController controllerBrand = TextEditingController();
-
-  @override
-  void initState() {
-    controllerItemName.text = widget.item.itemName;
-    controllerEol.text = widget.item.eol.toString();
-    controllerDate.addListener(() {
-      controllerDate.text = selectedDate.year.toString();
-    });
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controllerItemName.dispose();
-    controllerEol.dispose();
-    controllerDate.dispose();
-    controllerBrand.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            height: 65,
-            margin: const EdgeInsets.only(bottom: 0),
-            decoration: const BoxDecoration(
-                border:
-                    Border(bottom: BorderSide(width: 1, color: Colors.black))),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Add Electronic Item",
-                    style: textTheme.titleMedium,
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close))
-                ],
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-                child: Column(
-              children: [
-                TextFormField(
-                  controller: controllerItemName,
-                  readOnly: true,
-                  cursorColor: MyAppColors.outline,
-                  decoration:
-                      const InputDecoration(labelText: 'Electronic Item Name'),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: controllerEol,
-                  readOnly: true,
-                  decoration: const InputDecoration(labelText: 'End of Life'),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  onTap: () async {
-                    DateTime? datePicker = await showDatePicker(
-                        context: context,
-                        initialDate: selectedDate,
-                        firstDate: DateTime(2000),
-                        lastDate: DateTime(2030));
-                    if (datePicker != null && datePicker != selectedDate) {
-                      setState(() {
-                        selectedDate = datePicker;
-                      });
-                    }
-                  },
-                  controller: controllerDate,
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                      icon: Icon(Icons.calendar_today),
-                      labelText: 'Select Date of Purchase'),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: controllerBrand,
-                  cursorColor: MyAppColors.outline,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter Brand',
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                FilledButton(onPressed: () {}, child: const Text("Save"))
-              ],
-            )),
-          )
-        ],
+                isScrollControlled: true,
+                isDismissible: true,
+                enableDrag: true,
+              );
+            },
+            child:
+                MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
+          );
+        },
       ),
     );
   }

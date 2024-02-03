@@ -6,20 +6,21 @@ import 'package:ebin/views/individuals/homepage.dart';
 import 'package:ebin/views/individuals/profile.dart';
 import 'package:flutter/material.dart';
 
-class MyNavigationMenu extends StatefulWidget {
-  const MyNavigationMenu({super.key});
+class IndividualNavigationMenu extends StatefulWidget {
+  const IndividualNavigationMenu({super.key});
 
   @override
-  State<MyNavigationMenu> createState() => _MyNavigationMenuState();
+  State<IndividualNavigationMenu> createState() =>
+      _IndividualNavigationMenuState();
 }
 
-class _MyNavigationMenuState extends State<MyNavigationMenu> {
+class _IndividualNavigationMenuState extends State<IndividualNavigationMenu> {
   int index = 0;
   final screens = [
     const IndividualHomePage(),
     const IndividualDisposePage(),
     const IndividualActivityPage(),
-    const IndividualProfilePage(),
+    IndividualProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {

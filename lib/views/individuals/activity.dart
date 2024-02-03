@@ -11,32 +11,22 @@ class _IndividualActivityPageState extends State<IndividualActivityPage> {
   DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              enabled: false,
-              decoration:
-                  InputDecoration(labelText: selectedDate.year.toString()),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text('Activities'),
+          bottom: const TabBar(tabs: [
+            Tab(
+              text: 'Approved',
             ),
-            MaterialButton(
-                onPressed: () async {
-                  DateTime? datePicker = await showDatePicker(
-                      context: context,
-                      initialDate: selectedDate,
-                      firstDate: DateTime(2000),
-                      lastDate: DateTime(2030));
-                  if (datePicker != null && datePicker != selectedDate) {
-                    setState(() {
-                      selectedDate = datePicker;
-                    });
-                  }
-                },
-                child: const Text("Activity page")),
-          ],
+            Tab(
+              text: 'Pending Approval',
+            ),
+          ]),
         ),
+        body: const Center(),
       ),
     );
   }
