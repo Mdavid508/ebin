@@ -6,7 +6,6 @@ import 'package:ebin/models/category.dart';
 import 'package:ebin/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uuidv6/uuidv6.dart';
 
 class ItemsController extends GetxController {
   AuthController authController = Get.find();
@@ -63,7 +62,7 @@ class ItemsController extends GetxController {
       category: ItemCategory.itEquipments,
     ),
     ItemEol(
-      itemName: 'Routerss',
+      itemName: 'Routers',
       url:
           'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/jVgpFGL5aFDjjGjR.standard',
       eol: 7,
@@ -172,6 +171,8 @@ class ItemsController extends GetxController {
   final yearOfPurchase = ''.obs;
   final selectedItem = Rxn<ItemEol>();
   final maincategory = ''.obs;
+  // final itemData = Rxn<EndOfLife>();
+  var itemData = <EndOfLife>[].obs;
 
   TextEditingController controllerItemName = TextEditingController();
   TextEditingController controllerEol = TextEditingController();
@@ -186,7 +187,7 @@ class ItemsController extends GetxController {
       controllerItemName.text = selectedItem.value!.itemName;
       controllerDate.text = selectedDate.value.year.toString();
     });
-
+    fetchAllItems();
     super.onInit();
   }
 
@@ -248,20 +249,12 @@ class ItemsController extends GetxController {
 
 //method or function to add values to firebase.
   void addItem() async {
-    // method to generate uuid;
-    String generateUuid() {
-      var uuid = uuidv6();
-      return uuid;
-    }
-
-    String id = generateUuid();
     brandName.value = controllerBrand.text;
     itemName.value = selectedItem.value!.itemName;
-    category.value = 'Screens';
+    category.value = selectedItem.value!.category;
     eol.value = selectedItem.value!.eol.toString();
     yearOfPurchase.value = selectedDate.value.year.toString();
     EndOfLife endOfLife = EndOfLife(
-      id: id,
       itemName: itemName.value,
       userId: userId.value,
       category: category.value,
@@ -273,19 +266,40 @@ class ItemsController extends GetxController {
     if (_isValid()) {
       isLoading.value = true;
       try {
-        await _firestore.collection("eol").doc(id).set(endOfLife.toMap());
+        await _firestore.collection("eol").doc().set(endOfLife.toMap());
         Get.snackbar('Success Message', 'Items added Successfuly',
             snackPosition: SnackPosition.BOTTOM);
         controllerBrand.clear();
         controllerDate.text = DateTime.now().year.toString();
         selectedDate.value = DateTime.now();
       } catch (e) {
-        Get.snackbar('Error', e.toString(),
-            snackPosition: SnackPosition.BOTTOM);
+        Get.snackbar(
+          'Error',
+          e.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+        );
         debugPrint(e.toString());
       } finally {
         isLoading.value = false;
       }
+    }
+  }
+
+  //method to fetch data from firebase
+  void fetchAllItems() async {
+    isLoading.value = true;
+    try {
+      final snapshot = await _firestore.collection('eol').get();
+      final itemsData = EndOfLife.fromQuerySnapshot(snapshot);
+      itemData.assignAll(itemsData);
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
     }
   }
 }

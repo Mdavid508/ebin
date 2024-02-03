@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ebin/constants/firebase_auth_constants.dart';
 import 'package:ebin/models/user.dart';
-import 'package:ebin/views/individuals/activity.dart';
-import 'package:ebin/views/individuals/dispose.dart';
-import 'package:ebin/views/individuals/homepage.dart';
+import 'package:ebin/views/collectors/collector_navigation_menu.dart';
+import 'package:ebin/views/dismantlers/dismantler_home_page.dart';
+import 'package:ebin/views/individuals/navigation_menu.dart';
 import 'package:ebin/views/onboarding1.dart';
 import 'package:ebin/views/usecase.dart';
 import 'package:flutter/foundation.dart';
@@ -101,11 +101,11 @@ class AuthController extends GetxController {
       await saveUserDetailsSharedprefs();
       // move to dashboard depending on user type
       if (userType.value == "Individual") {
-        Get.to(const IndividualHomePage());
+        Get.to(const IndividualNavigationMenu());
       } else if (userType.value == "Dismantler") {
-        Get.to(const IndividualActivityPage());
+        Get.to(const DismantlersHomePage());
       } else if (userType.value == 'Collector') {
-        Get.to(const IndividualDisposePage());
+        Get.to(const CollectorNavigationMenu());
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());
