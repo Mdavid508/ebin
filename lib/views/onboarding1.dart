@@ -1,8 +1,10 @@
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/controllers/auth_controller.dart';
 import 'package:ebin/models/user.dart';
+import 'package:ebin/views/authenication.dart';
 import 'package:ebin/views/individuals/activity.dart';
 import 'package:ebin/views/individuals/homepage.dart';
+import 'package:ebin/views/individuals/navigation_menu.dart';
 import 'package:ebin/views/onboarding2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,19 +20,9 @@ class _Onboarding1State extends State<Onboarding1> {
   final AuthController authController = Get.put(AuthController());
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    UserModel savedUser = await authController.getUserDetailsFromSharedPref();
-
-    if (savedUser.userId != '') {
-      if (savedUser.userType == 'Individual') {
-        Get.to(const IndividualHomePage());
-      } else if (savedUser.userType == 'Dismantler') {
-        Get.to(const IndividualActivityPage());
-      } else if (savedUser.userType == 'Collector') {
-        Get.to(const IndividualHomePage());
-      }
-    }
+    localAuth();
   }
 
   @override
@@ -64,6 +56,21 @@ class _Onboarding1State extends State<Onboarding1> {
                 Mybutton(),
               ],
             )));
+  }
+
+  //method to verify the shared prefs.
+  void localAuth() async {
+    UserModel savedUser = await authController.getUserDetailsFromSharedPref();
+
+    if (savedUser.userId != '') {
+      if (savedUser.userType == 'Individual') {
+        Get.to(const IndividualNavigationMenu());
+      } else if (savedUser.userType == 'Dismantler') {
+        Get.to(const IndividualActivityPage());
+      } else if (savedUser.userType == 'Collector') {
+        Get.to(const IndividualHomePage());
+      }
+    }
   }
 }
 
@@ -144,7 +151,9 @@ class Mytextbutton extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     return TextButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(const Authenication());
+        },
         child: Text(
           'Skip',
           style: textTheme.labelLarge?.copyWith(
