@@ -1,3 +1,4 @@
+import 'package:ebin/Assets/Theme/custom_theme/appbar_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/chips_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/outlined_button_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/tab_bar_theme.dart';
@@ -22,6 +23,7 @@ class MyAppTheme {
     outlinedButtonTheme: MyAppOutlinedButtonTheme.lightOutlinedTheme,
     primaryColor: MyAppColors.primaryColor,
     inputDecorationTheme: MyAppTextField.lightTextField,
+    appBarTheme: MyAppBarTheme.lightAppBar,
   );
 
   static ThemeData darkTheme = ThemeData(
