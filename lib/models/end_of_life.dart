@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EndOfLife {
+  String? id;
   String itemName;
   String userId;
   String category;
-  int eol;
+  String eol;
   String yearOfPurchase;
   String brandName;
 
   EndOfLife({
+    this.id,
     required this.itemName,
     required this.userId,
     required this.category,
