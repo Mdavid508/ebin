@@ -53,9 +53,9 @@ class _IndividualHomePageState extends State<IndividualHomePage> {
           child: TabBarView(
             children: [
               Center(child: MyScreensSection()),
-              const Center(child: MyItEquipmentsSection()),
-              const Center(child: MySmallEquipmentsSection()),
-              const Center(child: MyOthersDevicesSection()),
+              Center(child: MyItEquipmentsSection()),
+              Center(child: MySmallEquipmentsSection()),
+              Center(child: MyOthersDevicesSection()),
             ],
           ),
         ),

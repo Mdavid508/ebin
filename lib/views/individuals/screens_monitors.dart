@@ -20,66 +20,73 @@ class MyScreensSection extends StatelessWidget {
   Widget build(BuildContext context) {
     TextTheme textTheme = MyAppTextTheme.lightTheme;
     return Column(
-      mainAxisSize: MainAxisSize.max,
       children: [
-        const SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(children: [
-            Wrap(
-              alignment: WrapAlignment.start,
-              spacing: 16,
+        Row(
+          children: [
+            Column(
               children: [
-                Chip(label: Text('Laptops')),
-                Chip(label: Text('Tablets')),
-                Chip(label: Text('Flat Panel Display')),
+                const SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(children: [
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      spacing: 16,
+                      children: [
+                        Chip(label: Text('Laptops')),
+                        Chip(label: Text('Tablets')),
+                        Chip(label: Text('Flat Panel Display')),
+                      ],
+                    ),
+                  ]),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
+                  width: 328,
+                  decoration: BoxDecoration(
+                    color: MyAppColors.surfaceLightColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const MyCategoryContainerBuilder(
+                          image:
+                              'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/3tWdqRoMU63cuci1.standard',
+                          categoriesHeading: 'Screens and Monitors',
+                          categories: 'CRT monitors, Flat panel Display'),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      OutlinedButton.icon(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ScreenList(),
+                              ));
+                        },
+                        icon: const Icon(
+                          Icons.add,
+                          color: MyAppColors.primaryColor,
+                        ),
+                        label: const Text("Add Your electronic device"),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ]),
+          ],
         ),
         const SizedBox(
-          height: 16,
+          height: 8,
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(12, 12, 8, 12),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: MyAppColors.surfaceLightColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const MyCategoryContainerBuilder(
-                  image:
-                      'https://d17kynu4zpq5hy.cloudfront.net/igi/ric/3tWdqRoMU63cuci1.standard',
-                  categoriesHeading: 'Screens and Monitors',
-                  categories: 'CRT monitors, Flat panel Display'),
-              const SizedBox(
-                height: 8,
-              ),
-              OutlinedButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ScreenList(),
-                      ));
-                },
-                icon: const Icon(
-                  Icons.add,
-                  color: MyAppColors.primaryColor,
-                ),
-                label: const Text("Add Your electronic device"),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-        Column(
-          children: [
-            Obx(
+        Expanded(
+          child: Center(
+            child: Obx(
               () {
                 if (controller.isLoading.value == true) {
                   return const CircularProgressIndicator();
@@ -91,7 +98,7 @@ class MyScreensSection extends StatelessWidget {
                   );
                 }
                 return ListView.builder(
-                  shrinkWrap: true,
+                  // shrinkWrap: true,
                   itemCount: controller.itemData.length,
                   itemBuilder: (context, index) {
                     final item = controller.itemData[index];
@@ -108,7 +115,7 @@ class MyScreensSection extends StatelessWidget {
                 );
               },
             ),
-          ],
+          ),
         )
       ],
     );
