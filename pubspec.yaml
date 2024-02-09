@@ -45,6 +45,8 @@ dependencies:
   google_sign_in: ^6.2.1
   shared_preferences: ^2.2.2
   uuidv6: ^1.0.0+1
+  geolocator: ^10.1.0
+  firebase_messaging: ^14.7.14
 
 dev_dependencies:
   flutter_test:

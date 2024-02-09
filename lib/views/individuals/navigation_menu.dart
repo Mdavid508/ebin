@@ -18,7 +18,7 @@ class _IndividualNavigationMenuState extends State<IndividualNavigationMenu> {
   int index = 0;
   final screens = [
     const IndividualHomePage(),
-    const IndividualDisposePage(),
+    IndividualDisposePage(),
     const IndividualActivityPage(),
     IndividualProfilePage(),
   ];
