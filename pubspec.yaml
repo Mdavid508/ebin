@@ -81,6 +81,7 @@ flutter:
     - Assets/images/screens.png
     - Assets/images/smallitdevices.png
     - Assets/images/others.png
+    - Assets/images/explore_nearby.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
