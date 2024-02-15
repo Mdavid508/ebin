@@ -1,4 +1,6 @@
+import 'package:ebin/views/widgets/collectionpoint_bottomsheet.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class IndividualActivityPage extends StatefulWidget {
   const IndividualActivityPage({super.key});
@@ -8,7 +10,6 @@ class IndividualActivityPage extends StatefulWidget {
 }
 
 class _IndividualActivityPageState extends State<IndividualActivityPage> {
-  DateTime selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -26,7 +27,20 @@ class _IndividualActivityPageState extends State<IndividualActivityPage> {
             ),
           ]),
         ),
-        body: const Center(),
+        body: Center(
+          child: FilledButton(
+              onPressed: () {
+                showMaterialModalBottomSheet(
+                  enableDrag: true,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  context: context,
+                  builder: (context) => CollectionPointBottomSheet(),
+                );
+              },
+              child: const Text('open bottom sheet')),
+        ),
       ),
     );
   }

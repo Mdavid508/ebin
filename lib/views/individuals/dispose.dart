@@ -16,8 +16,12 @@ class IndividualDisposePage extends StatelessWidget {
       body: SafeArea(
         child: Obx(
           () => GoogleMap(
+            zoomControlsEnabled: true,
             initialCameraPosition: CameraPosition(
-                target: controller.currenLocation.value!, zoom: 14),
+              target: controller.currenLocation.value!,
+              zoom: 14,
+            ),
+            markers: controller.allMarkers,
           ),
         ),
       ),
