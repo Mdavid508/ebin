@@ -2,6 +2,7 @@
 
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/controllers/collectionpoint_controller.dart';
+import 'package:ebin/views/individuals/dispose_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,6 +14,7 @@ class CollectionPointBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = MyAppTextTheme.lightTheme;
+    final markerValue = controller.selectedMarker.value;
     return SafeArea(
       child: Padding(
         padding:
@@ -26,7 +28,7 @@ class CollectionPointBottomSheet extends StatelessWidget {
                 children: [
                   Row(children: [
                     Text(
-                      'Giakanja Collection Point',
+                      markerValue!.collectionPointName,
                       style: textTheme.titleMedium,
                     ),
                   ]),
@@ -71,31 +73,32 @@ class CollectionPointBottomSheet extends StatelessWidget {
                     children: [
                       Flexible(
                         flex: 2,
-                        child: Image.network(
-                            "https://imgs.search.brave.com/g821mH-bvSydL_diaLs05wsBusD8XOdbitkAQErG9Hk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9nbWNs/ZWFuaW5nLmNvLmtl/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIy/LzA0L0VsZWN0cm9u/aWMtV2FzdGUtTWFu/YWdlbWVudC1hbmQt/RGlzcG9zYWwtaW4t/S2VueWEuanBn"),
+                        child: Image.network(markerValue.imageUrls![0]),
                       ),
                       const SizedBox(
                         width: 16,
                       ),
                       Flexible(
                         flex: 1,
-                        child: Image.network(
-                            "https://imgs.search.brave.com/g821mH-bvSydL_diaLs05wsBusD8XOdbitkAQErG9Hk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9nbWNs/ZWFuaW5nLmNvLmtl/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIy/LzA0L0VsZWN0cm9u/aWMtV2FzdGUtTWFu/YWdlbWVudC1hbmQt/RGlzcG9zYWwtaW4t/S2VueWEuanBn"),
+                        child: Image.network(markerValue.imageUrls![1]),
                       ),
                       const SizedBox(
                         width: 16,
                       ),
                       Flexible(
                         flex: 1,
-                        child: Image.network(
-                            "https://imgs.search.brave.com/g821mH-bvSydL_diaLs05wsBusD8XOdbitkAQErG9Hk/rs:fit:500:0:0/g:ce/aHR0cHM6Ly9nbWNs/ZWFuaW5nLmNvLmtl/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDIy/LzA0L0VsZWN0cm9u/aWMtV2FzdGUtTWFu/YWdlbWVudC1hbmQt/RGlzcG9zYWwtaW4t/S2VueWEuanBn"),
+                        child: Image.network(markerValue.imageUrls![2]),
                       ),
                     ],
                   ),
                   const SizedBox(
                     height: 16,
                   ),
-                  FilledButton(onPressed: () {}, child: const Text('Dispose')),
+                  FilledButton(
+                      onPressed: () {
+                        Get.to(const DisposeItem());
+                      },
+                      child: const Text('Dispose')),
                 ],
               ),
             ),
