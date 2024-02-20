@@ -68,7 +68,7 @@ class MyNextButton extends StatelessWidget {
         onPressed: () async {
           authController.signInWithGoogle();
         },
-        label: const Text('Continue with Google '),
+        label: const Text('Continue with Google'),
       ),
     );
   }
