@@ -166,3 +166,47 @@ class MyItEquipmentsList extends StatelessWidget {
     );
   }
 }
+
+class MyItEquipmentsDisposeList extends StatelessWidget {
+  MyItEquipmentsDisposeList({super.key});
+  final ItemsController controller = Get.put(ItemsController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(ItemCategory.itEquipments),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: controller.items.length,
+        itemBuilder: (context, index) {
+          final item = controller.items[index];
+
+          //Logic to filter Itequipmentslist
+          if (item.category != ItemCategory.itEquipments) {
+            return const SizedBox.shrink();
+          }
+
+          return GestureDetector(
+            onTap: () {
+              controller.selectedItem.value = item;
+              showMaterialModalBottomSheet(
+                isDismissible: false,
+                enableDrag: true,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12))),
+                context: context,
+                builder: (context) => ItemAdditionBottomSheet(),
+              );
+            },
+            child:
+                MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
+          );
+        },
+      ),
+    );
+  }
+}

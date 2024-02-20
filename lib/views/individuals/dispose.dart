@@ -14,15 +14,14 @@ class IndividualDisposePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Obx(
-          () => GoogleMap(
-            zoomControlsEnabled: true,
-            initialCameraPosition: CameraPosition(
-              target: controller.currenLocation.value!,
-              zoom: 14,
-            ),
-            markers: controller.allMarkers,
+        child: GoogleMap(
+          zoomControlsEnabled: true,
+          initialCameraPosition: CameraPosition(
+            target: controller.currenLocation.value ??
+                const LatLng(-0.421150, 36.949409),
+            zoom: 14,
           ),
+          markers: controller.allMarkers,
         ),
       ),
     );
