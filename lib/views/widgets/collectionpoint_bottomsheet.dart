@@ -2,7 +2,7 @@
 
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/controllers/collectionpoint_controller.dart';
-import 'package:ebin/views/individuals/dispose_item.dart';
+import 'package:ebin/views/individuals/dispose_item_category.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -96,7 +96,7 @@ class CollectionPointBottomSheet extends StatelessWidget {
                   ),
                   FilledButton(
                       onPressed: () {
-                        Get.to(const DisposeItem());
+                        Get.to(const DisposeItemCategory());
                       },
                       child: const Text('Dispose')),
                 ],
