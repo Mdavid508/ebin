@@ -2,6 +2,7 @@ import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/controllers/items_controller.dart';
 import 'package:ebin/models/category.dart';
+import 'package:ebin/views/individuals/dispose_item.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
 import 'package:ebin/views/widgets/category_item_builder.dart';
 import 'package:ebin/views/widgets/item_addition_bottomsheet.dart';
@@ -191,16 +192,7 @@ class MyItEquipmentsDisposeList extends StatelessWidget {
           return GestureDetector(
             onTap: () {
               controller.selectedItem.value = item;
-              showMaterialModalBottomSheet(
-                isDismissible: false,
-                enableDrag: true,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12))),
-                context: context,
-                builder: (context) => ItemAdditionBottomSheet(),
-              );
+              Get.to(DisposeItem());
             },
             child:
                 MyCategoryItemBuilder(image: item.url, itemName: item.itemName),

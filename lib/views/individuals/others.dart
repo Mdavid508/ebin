@@ -2,6 +2,7 @@ import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
 import 'package:ebin/controllers/items_controller.dart';
 import 'package:ebin/models/category.dart';
+import 'package:ebin/views/individuals/dispose_item.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
 import 'package:ebin/views/widgets/category_item_builder.dart';
 import 'package:ebin/views/widgets/item_addition_bottomsheet.dart';
@@ -156,6 +157,41 @@ class MyOthersList extends StatelessWidget {
               },
               child: MyCategoryItemBuilder(
                   image: item.url, itemName: item.itemName));
+        },
+      ),
+    );
+  }
+}
+
+class MyOthersDisposeList extends StatelessWidget {
+  MyOthersDisposeList({super.key});
+  final ItemsController controller = Get.put(ItemsController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(ItemCategory.others),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: controller.items.length,
+        itemBuilder: (context, index) {
+          final item = controller.items[index];
+
+          //Logic to filter Itequipmentslist
+          if (item.category != ItemCategory.others) {
+            return const SizedBox.shrink();
+          }
+
+          return GestureDetector(
+            onTap: () {
+              controller.selectedItem.value = item;
+              Get.to(DisposeItem());
+            },
+            child:
+                MyCategoryItemBuilder(image: item.url, itemName: item.itemName),
+          );
         },
       ),
     );
