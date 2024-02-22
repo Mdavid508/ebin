@@ -7,13 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class CollectionPointController extends GetxController {
-  var currenLocation = Rxn<LatLng>();
-  var allMarkers = RxSet<Marker>();
-  final selectedMarker = Rxn<CollectionPoint>();
-  // List<Marker> allMarkers = [].obs;
-  // Set<Marker> markers = {};
-  late BitmapDescriptor myIcon;
-
   final List<CollectionPoint> locations = [
     CollectionPoint(
       collectionPointName: "Giakanja Collection Point",
@@ -37,12 +30,28 @@ class CollectionPointController extends GetxController {
     )
   ].obs;
 
+  var currenLocation = Rxn<LatLng>();
+  var allMarkers = RxSet<Marker>();
+  final selectedMarker = Rxn<CollectionPoint>();
+  final lat = Rxn<LatLng>();
+  final lng = Rxn<LatLng>();
+  // List<Marker> allMarkers = [].obs;
+  // Set<Marker> markers = {};
+  late BitmapDescriptor myIcon;
+  TextEditingController controllerCollectionPointName = TextEditingController();
+
   @override
   Future<void> onInit() async {
     super.onInit();
-    debugPrint('Location:');
     currenLocation.value = await getCurrentLocation();
     createMarkers();
+
+    ever(selectedMarker, (_) {
+      debugPrint(
+          "Selected Item changed to ${selectedMarker.value!.collectionPointName}");
+      controllerCollectionPointName.text =
+          selectedMarker.value!.collectionPointName;
+    });
   }
 
   //method to load all the markers in the map
@@ -60,13 +69,18 @@ class CollectionPointController extends GetxController {
           onTap: () {
             selectedMarker.value = element;
             showMaterialModalBottomSheet(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(12),
+                topRight: Radius.circular(12),
+              )),
               context: Get.context!,
               builder: (context) => CollectionPointBottomSheet(),
             );
           },
         ),
       );
-      debugPrint('element');
+      debugPrint('elementmap');
     }
   }
 
