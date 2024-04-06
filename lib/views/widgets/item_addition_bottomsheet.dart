@@ -1,6 +1,7 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/controllers/items_controller.dart';
+import 'package:ebin/controllers/item_eol_controller.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -97,8 +98,8 @@ class ItemAdditionBottomSheet extends StatelessWidget {
                       Obx(
                         () => FilledButton.icon(
                           onPressed: () async {
-                            controller.addItem();
-                            controller.fetchAllItems();
+                            controller.addEolItem();
+                            controller.fetchAllEolItems();
                           },
                           icon: controller.isLoading.value
                               ? const CircularProgressIndicator()
