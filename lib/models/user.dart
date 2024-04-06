@@ -1,18 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ebin/controllers/auth_controller.dart';
+import 'package:ebin/enums/user_type.dart';
 
 class UserModel {
   String userId;
   String email;
   String name;
   String profileUrl;
-  String userType;
+  UserType userType;
 
   UserModel({
     required this.userId,
     required this.email,
     required this.name,
     required this.profileUrl,
-    this.userType = "user",
+    this.userType = UserType.individual,
   });
 
   // HashMap to save to firebase
@@ -22,7 +24,7 @@ class UserModel {
       "email": email,
       "name": name,
       "profileUrl": profileUrl,
-      "userType": userType,
+      "userType": AuthController.getUserTypeStr(userType),
     };
   }
 
@@ -33,7 +35,7 @@ class UserModel {
       email: snapshot['email'],
       name: snapshot['name'],
       profileUrl: snapshot['profileUrl'],
-      userType: snapshot['userType'],
+      userType: AuthController.getUserType(snapshot['userType']),
     );
   }
 
