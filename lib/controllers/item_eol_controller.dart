@@ -170,7 +170,7 @@ class ItemsController extends GetxController {
   final eol = ''.obs;
   final yearOfPurchase = ''.obs;
   final selectedItem = Rxn<ItemEol>();
-  final maincategory = ''.obs;
+  // final maincategory = ''.obs;
   // final itemData = Rxn<EndOfLife>();
   var itemData = <EndOfLife>[].obs;
 
@@ -187,15 +187,15 @@ class ItemsController extends GetxController {
       controllerItemName.text = selectedItem.value!.itemName;
       controllerDate.text = selectedDate.value.year.toString();
     });
-    fetchAllItems();
+    fetchAllEolItems();
     super.onInit();
   }
 
   @override
   void onReady() async {
     super.onReady();
-    UserModel savedUser = await authController.getUserDetailsFromSharedPref();
-    userId.value = savedUser.userId;
+    UserModel? savedUser = await AuthController.getUserDetailsFromSharedPref();
+    userId.value = savedUser!.userId;
   }
 
   @override
@@ -203,16 +203,16 @@ class ItemsController extends GetxController {
     super.onClose();
     controllerBrand.clear();
     controllerDate.clear();
-    controllerEol.dispose();
-    controllerItemName.dispose();
+    controllerEol.clear();
+    controllerItemName.clear();
   }
 
   //method to validate everything is not empty.
   bool _isValid() {
     if (controllerItemName.text.trim().isEmpty) {
       Get.snackbar(
-        'Enter Valid BrandName',
-        'Please enter a valid BrandName',
+        'Enter Valid ItemName',
+        'Please enter a valid ItemName',
         snackPosition: SnackPosition.BOTTOM,
       );
       // userId = authController.userId.value.toString();
@@ -248,7 +248,7 @@ class ItemsController extends GetxController {
   }
 
 //method or function to add values to firebase.
-  void addItem() async {
+  void addEolItem() async {
     brandName.value = controllerBrand.text;
     itemName.value = selectedItem.value!.itemName;
     category.value = selectedItem.value!.category;
@@ -286,7 +286,7 @@ class ItemsController extends GetxController {
   }
 
   //method to fetch data from firebase
-  void fetchAllItems() async {
+  void fetchAllEolItems() async {
     isLoading.value = true;
     try {
       final snapshot = await _firestore.collection('eol').get();

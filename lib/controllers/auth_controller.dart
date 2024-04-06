@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ebin/constants/firebase_auth_constants.dart';
+import 'package:ebin/enums/user_type.dart';
 import 'package:ebin/models/user.dart';
+import 'package:ebin/views/authenication.dart';
 import 'package:ebin/views/collectors/collector_navigation_menu.dart';
-import 'package:ebin/views/dismantlers/dismantler_home_page.dart';
+import 'package:ebin/views/dismantlers/dismantler_navigation_menu.dart';
+import 'package:ebin/views/dismantlers/dismantlers_registration.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
 import 'package:ebin/views/onboarding1.dart';
 import 'package:ebin/views/usecase.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,7 +23,8 @@ class AuthController extends GetxController {
   final name = ''.obs;
   final profileUrl = ''.obs;
   final userId = ''.obs;
-  final userType = ''.obs;
+  final userType = UserType.individual.obs;
+  final dismantlerRegistered = false.obs;
   @override
   void onReady() {
     //checking for user availability?? null or not null
@@ -36,21 +39,30 @@ class AuthController extends GetxController {
   }
 
 //validate a user if has an account or not
-  _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) {
+  _setInitialScreenGoogle(GoogleSignInAccount? googleSignInAccount) async {
     isLoading.value = false;
 
     if (googleSignInAccount == null) {
       // if the user is not found then the user is navigated to the Register Screen
-      Get.offAll(() => const Onboarding1());
+      Get.snackbar('Sign In', 'Sign In not Successful please try again');
     } else {
       // if the user exists and logged in the the user is navigated to the Home Screen
       email.value = googleSignInAccount.email;
       name.value = googleSignInAccount.displayName ?? "";
       profileUrl.value = googleSignInAccount.photoUrl ?? "";
       userId.value = googleSignInAccount.id;
+      // check if user is registered in the database
+      UserModel? registerdUser = await checkUser(googleSignInAccount.id);
 
-      Get.offAll(() => MyUsecase());
-      // googleSign.signOut();
+      if (registerdUser == null) {
+        Get.offAll(() => MyUsecase());
+      } else {
+        // save user to shared prefs
+        userType.value = registerdUser.userType;
+        await saveUserDetailsSharedprefs();
+        // user had already been registerd in the system. Redirect based on userType
+        Get.offAll(AuthController.getHomepage(registerdUser));
+      }
     }
   }
 
@@ -80,8 +92,11 @@ class AuthController extends GetxController {
 
   //Logout from account
   void signout() async {
-    await auth.signOut();
+    // auth.signOut();
+
     await googleSign.signOut();
+    await clearUserData();
+    Get.offAll(const Authenication());
   }
 
   //Register user to firebase
@@ -100,12 +115,18 @@ class AuthController extends GetxController {
       //shared preferences method to save login details locally
       await saveUserDetailsSharedprefs();
       // move to dashboard depending on user type
-      if (userType.value == "Individual") {
-        Get.to(const IndividualNavigationMenu());
-      } else if (userType.value == "Dismantler") {
-        Get.to(const DismantlersHomePage());
-      } else if (userType.value == 'Collector') {
-        Get.to(const CollectorNavigationMenu());
+      if (userType.value == UserType.individual) {
+        Get.to(
+          const IndividualNavigationMenu(),
+        );
+      } else if (userType.value == UserType.dismantler) {
+        Get.to(
+          DismantlersRegistration(),
+        );
+      } else if (userType.value == UserType.collector) {
+        Get.to(
+          const CollectorNavigationMenu(),
+        );
       }
     } catch (e) {
       Get.snackbar("Error", e.toString());
@@ -120,10 +141,10 @@ class AuthController extends GetxController {
     prefs.setString('email', email.value);
     prefs.setString('name', name.value);
     prefs.setString('profileUrl', profileUrl.value);
-    prefs.setString('userType', userType.value);
+    prefs.setString('userType', getUserTypeStr(userType.value));
   }
 
-  Future<UserModel> getUserDetailsFromSharedPref() async {
+  static Future<UserModel?> getUserDetailsFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
     String? email = prefs.getString('email');
@@ -131,12 +152,66 @@ class AuthController extends GetxController {
     String? profileUrl = prefs.getString('profileUrl');
     String? userType = prefs.getString('userType');
 
+    if (userId == null) return null;
+
     return UserModel(
-      userId: userId ?? '',
+      userId: userId,
       email: email ?? '',
       name: name ?? '',
       profileUrl: profileUrl ?? '',
-      userType: userType ?? '',
+      userType: getUserType(userType),
     );
+  }
+
+  static UserType getUserType(String? userType) {
+    if (userType == "Individual") {
+      return UserType.individual;
+    }
+    if (userType == 'Dismantler') {
+      return UserType.dismantler;
+    }
+    if (userType == 'Collector') {
+      return UserType.collector;
+    }
+    return UserType.individual;
+  }
+
+  static String getUserTypeStr(UserType userType) {
+    if (userType == UserType.individual) {
+      return "Individual";
+    }
+    if (userType == UserType.dismantler) {
+      return 'Dismantler';
+    }
+    if (userType == UserType.collector) {
+      return 'Collector';
+    }
+    return "Individual";
+  }
+
+  // clear user data from shared prefs
+  Future<void> clearUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
+
+  Future<UserModel?> checkUser(String userId) async {
+    DocumentSnapshot snapshot =
+        await _firestore.collection("users").doc(userId).get();
+    if (!snapshot.exists) return null;
+
+    return UserModel.fromDocument(snapshot);
+  }
+
+  //get homepage.
+  static Widget getHomepage(UserModel? loggedInUser) {
+    if (loggedInUser?.userType == UserType.individual) {
+      return const IndividualNavigationMenu();
+    } else if (loggedInUser?.userType == UserType.dismantler) {
+      return const DismantlerNavigationMenu();
+    } else if (loggedInUser?.userType == UserType.collector) {
+      return const CollectorNavigationMenu();
+    }
+    return const Onboarding1();
   }
 }
