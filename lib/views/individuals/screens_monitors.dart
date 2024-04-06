@@ -1,6 +1,7 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/controllers/items_controller.dart';
+import 'package:ebin/controllers/item_eol_controller.dart';
+
 import 'package:ebin/models/category.dart';
 import 'package:ebin/views/individuals/dispose_item.dart';
 

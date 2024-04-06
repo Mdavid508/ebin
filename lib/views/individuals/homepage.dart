@@ -1,5 +1,6 @@
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/controllers/items_controller.dart';
+import 'package:ebin/controllers/item_eol_controller.dart';
+
 import 'package:ebin/views/individuals/it_equipments.dart';
 import 'package:ebin/views/individuals/others.dart';
 import 'package:ebin/views/individuals/screens_monitors.dart';

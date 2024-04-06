@@ -3,7 +3,7 @@ import 'package:ebin/constants/colors.dart';
 import 'package:ebin/views/individuals/activity.dart';
 import 'package:ebin/views/individuals/dispose.dart';
 import 'package:ebin/views/individuals/homepage.dart';
-import 'package:ebin/views/individuals/profile.dart';
+import 'package:ebin/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class IndividualNavigationMenu extends StatefulWidget {
@@ -20,7 +20,7 @@ class _IndividualNavigationMenuState extends State<IndividualNavigationMenu> {
     const IndividualHomePage(),
     IndividualDisposePage(),
     const IndividualActivityPage(),
-    IndividualProfilePage(),
+    ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
