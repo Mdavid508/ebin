@@ -47,6 +47,9 @@ dependencies:
   uuidv6: ^1.0.0+1
   geolocator: ^10.1.0
   firebase_messaging: ^14.7.14
+  image_picker: ^1.0.7
+  firebase_storage: ^11.6.9
+  path: ^1.8.3
 
 dev_dependencies:
   flutter_test:

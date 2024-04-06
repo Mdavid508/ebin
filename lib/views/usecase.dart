@@ -1,4 +1,5 @@
 import 'package:ebin/controllers/auth_controller.dart';
+import 'package:ebin/enums/user_type.dart';
 import 'package:ebin/views/onboarding1.dart';
 import 'package:ebin/views/widgets/usecasecontainer.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class MyUsecase extends StatelessWidget {
                 GestureDetector(
                   //saving to the firebase.
                   onTap: () async {
-                    authController.userType.value = 'Individual';
+                    authController.userType.value = UserType.individual;
                     authController.addUser();
                   },
                   child: const MyUsecaseContainer(
@@ -37,7 +38,7 @@ class MyUsecase extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    authController.userType.value = 'Collector';
+                    authController.userType.value = UserType.collector;
                     authController.addUser();
                   },
                   child: const MyUsecaseContainer(
@@ -45,7 +46,7 @@ class MyUsecase extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    authController.userType.value = 'Dismantler';
+                    authController.userType.value = UserType.dismantler;
                     authController.addUser();
                   },
                   child: const MyUsecaseContainer(

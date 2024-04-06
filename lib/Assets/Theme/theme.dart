@@ -1,5 +1,6 @@
 import 'package:ebin/Assets/Theme/custom_theme/appbar_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/chips_theme.dart';
+import 'package:ebin/Assets/Theme/custom_theme/floating_action_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/outlined_button_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/tab_bar_theme.dart';
 import 'package:ebin/Assets/Theme/custom_theme/text_field_theme.dart';
@@ -17,6 +18,8 @@ class MyAppTheme {
     scaffoldBackgroundColor: Colors.white,
     textTheme: MyAppTextTheme.lightTheme,
     filledButtonTheme: MyAppFilledButtonTheme.lightFilledButtonTheme,
+    floatingActionButtonTheme:
+        MyAppFloatingActionButtonTheme.lightFloatingActionButton,
     navigationBarTheme: MyAppNavigationBarTheme.lightNavigationBarTheme,
     tabBarTheme: MyAppTabBarTheme.lightThemeTabBar,
     chipTheme: MyAppChipTheme.lightChipTheme,

@@ -1,5 +1,6 @@
+import 'package:ebin/controllers/auth_controller.dart';
 import 'package:ebin/firebase_options.dart';
-import 'package:ebin/views/onboarding1.dart';
+import 'package:ebin/models/user.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ebin/Assets/Theme/theme.dart';
@@ -8,11 +9,18 @@ import 'package:get/get.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  //get the loggedin user.
+  final UserModel? loggedInUser =
+      await AuthController.getUserDetailsFromSharedPref();
+  runApp(MyApp(
+    loggedInUser: loggedInUser,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final UserModel? loggedInUser;
+
+  const MyApp({super.key, required this.loggedInUser});
 
   // This widget is the root of your application.
   @override
@@ -21,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: MyAppTheme.theme,
-      home: const Onboarding1(),
+      home: AuthController.getHomepage(loggedInUser),
     );
   }
 }
