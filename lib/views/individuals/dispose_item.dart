@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/controllers/collectionpoint_controller.dart';
+import 'package:ebin/controllers/image_controller.dart';
 import 'package:ebin/controllers/item_eol_controller.dart';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,7 @@ class DisposeItem extends StatelessWidget {
 
   final controllerItem = Get.put(ItemsController());
   final controllerLocation = Get.put(CollectionPointController());
+  final imageController = Get.put(ImageController());
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +69,16 @@ class DisposeItem extends StatelessWidget {
                 children: [
                   OutlinedButton.icon(
                     onPressed: () {
-                      controllerLocation.selectImages();
+                      imageController.selectImages();
                     },
                     icon: const Icon(Icons.image_outlined),
                     label: const Text(' Pick from Gallery'),
                   ),
-                  TextButton(onPressed: () {}, child: const Text('Clear')),
+                  TextButton(
+                      onPressed: () {
+                        imageController.imageFileList?.clear();
+                      },
+                      child: const Text('Clear')),
                 ],
               ),
               Column(
@@ -103,15 +109,18 @@ class DisposeItem extends StatelessWidget {
                 height: 16,
               ),
               Center(
-                child: FilledButton.icon(
-                    onPressed: () {
-                      controllerLocation.addDisposeItem();
-                      controllerLocation.imageFileList = null;
-                    },
-                    icon: controllerLocation.isloading.value
-                        ? const CircularProgressIndicator()
-                        : const Icon(Icons.upload),
-                    label: const Text('Submit')),
+                child: Obx(
+                  () => FilledButton.icon(
+                      onPressed: () async {
+                        await imageController.uploadImages();
+                        await controllerLocation.addDisposeItem();
+                        imageController.imageFileList?.clear();
+                      },
+                      icon: controllerLocation.isloading.value
+                          ? const CircularProgressIndicator()
+                          : const Icon(Icons.upload),
+                      label: const Text('Submit')),
+                ),
               )
             ],
           ),

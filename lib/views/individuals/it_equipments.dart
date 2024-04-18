@@ -5,9 +5,9 @@ import 'package:ebin/controllers/item_eol_controller.dart';
 import 'package:ebin/models/category.dart';
 import 'package:ebin/views/individuals/dispose_item.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
-import 'package:ebin/views/widgets/category_item_builder.dart';
-import 'package:ebin/views/widgets/item_addition_bottomsheet.dart';
-import 'package:ebin/views/widgets/item_data.dart';
+import 'package:ebin/views/widgets/individuals/category_item_builder.dart';
+import 'package:ebin/views/widgets/individuals/item_addition_bottomsheet.dart';
+import 'package:ebin/views/widgets/individuals/item_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -29,14 +29,6 @@ class MyItEquipmentsSection extends StatelessWidget {
               children: [
                 const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Wrap(
-                    spacing: 8,
-                    children: [
-                      Chip(label: Text('Desktop PCs')),
-                      Chip(label: Text('Routers')),
-                      Chip(label: Text('Keyboards')),
-                    ],
-                  ),
                 ),
                 const SizedBox(
                   height: 16,

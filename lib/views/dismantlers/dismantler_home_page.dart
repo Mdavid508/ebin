@@ -1,24 +1,33 @@
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/constants/colors.dart';
+import 'package:ebin/controllers/dismantlers_controller.dart';
+import 'package:ebin/controllers/mapping_controller.dart';
+import 'package:ebin/views/dismantlers/dismantler_collect.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class DismantlersHomePage extends StatelessWidget {
-  const DismantlersHomePage({super.key});
+  DismantlersHomePage({super.key});
+
+  final controller = Get.put(DismantlersController());
+  final controllernew = Get.put(MappingController());
 
   @override
   Widget build(BuildContext context) {
     final textTheme = MyAppTextTheme.lightTheme;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome Back Almasi Dismantlers'),
+        title: Text(
+          'Welcome Back ${controller.companyName}',
+          softWrap: true,
+        ),
         automaticallyImplyLeading: true,
-        actions: [
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.notifications_outlined))
-        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          // controllernew.getCollectors();
+          Get.to(() => DismantlersCollect());
+        },
         label: Text(
           'Collect',
           style: textTheme.labelLarge,
@@ -35,21 +44,21 @@ class DismantlersHomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Wrap(
+            Wrap(
               alignment: WrapAlignment.center,
               spacing: 16,
               runSpacing: 8,
               children: [
-                DismantlersDetailsContainer(
-                  weightInKgs: 7,
+                const DismantlersDetailsContainer(
+                  weightInKgs: '7 kgs',
                   containerType: 'Collected',
                 ),
                 DismantlersDetailsContainer(
-                  weightInKgs: 17,
+                  weightInKgs: '${controller.disposedWeight.toString()} kgs',
                   containerType: 'Disposed',
                 ),
-                DismantlersDetailsContainer(
-                  weightInKgs: 25,
+                const DismantlersDetailsContainer(
+                  weightInKgs: '25',
                   containerType: 'Collectors',
                 ),
               ],
@@ -58,7 +67,22 @@ class DismantlersHomePage extends StatelessWidget {
               'Your Collections',
               style: textTheme.titleMedium,
             ),
-            // ListView.builder(itemBuilder: itemBuilder),
+            Expanded(
+                child: Obx(
+              () => ListView.builder(
+                shrinkWrap: true,
+                itemCount: controllernew.collectorData.length,
+                itemBuilder: ((context, index) {
+                  final item = controllernew.collectorData[index];
+
+                  return ListTile(
+                    tileColor: MyAppColors.surfaceLightColor,
+                    title: Text(item.collectorName),
+                    subtitle: Text('${item.totalWeight}kgs'),
+                  );
+                }),
+              ),
+            )),
           ],
         ),
       ),
@@ -71,7 +95,7 @@ class DismantlersDetailsContainer extends StatelessWidget {
   const DismantlersDetailsContainer(
       {super.key, required this.weightInKgs, required this.containerType});
 
-  final int weightInKgs;
+  final String weightInKgs;
   final String containerType;
 
   @override
@@ -89,7 +113,7 @@ class DismantlersDetailsContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            '$weightInKgs Kgs',
+            weightInKgs,
             style: textTheme.headlineSmall,
           ),
           Text(

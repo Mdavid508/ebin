@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ebin/constants/colors.dart';
-import 'package:ebin/constants/firebase_auth_constants.dart';
 import 'package:ebin/controllers/auth_controller.dart';
+import 'package:ebin/controllers/image_controller.dart';
 import 'package:ebin/controllers/item_eol_controller.dart';
 import 'package:ebin/enums/user_type.dart';
 import 'package:ebin/models/collection_point.dart';
 import 'package:ebin/models/dispose_item.dart';
 import 'package:ebin/models/user.dart';
-import 'package:ebin/views/widgets/collectionpoint_bottomsheet.dart';
-import 'package:ebin/views/widgets/disposalpoint_bottomsheet.dart';
+import 'package:ebin/views/widgets/individuals/collectionpoint_bottomsheet.dart';
+import 'package:ebin/views/widgets/dismantlers/disposalpoint_bottomsheet.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -39,11 +38,12 @@ class CollectionPointController extends GetxController {
       ],
     )
   ].obs;
-
-  AuthController authController = Get.put(AuthController());
-
+  //Controllers
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final controllerItem = Get.put(ItemsController());
+  AuthController authController = Get.put(AuthController());
+  final imageController = Get.put(ImageController());
+
   var currenLocation = Rxn<LatLng>();
   var allMarkers = RxSet<Marker>();
   final selectedMarker = Rxn<CollectionPoint>();
@@ -62,7 +62,7 @@ class CollectionPointController extends GetxController {
   final itemName = ''.obs;
   final brandName = ''.obs;
   final selectedLat = ''.obs;
-  var selectedLng = ''.obs;
+  final selectedLng = ''.obs;
   var collectionPointName = ''.obs;
   //variables to be saved to dismantler database
 
@@ -82,25 +82,8 @@ class CollectionPointController extends GetxController {
     //method to get the user id from the saved userpreferences.
     UserModel? savedUser = await AuthController.getUserDetailsFromSharedPref();
     userId.value = savedUser!.userId;
-    userType.value = savedUser.userType;
+    userType.value = savedUser.userType; //enums not working well
   }
-
-  //method to pick Images from either gallery. Max of Three images
-  selectImages() async {
-    imageFileList = await imagepicker.pickMultiImage();
-    if (imageFileList != null) {
-      for (XFile file in imageFileList!) {
-        listImagePath.add(file.path);
-      }
-    } else {
-      Get.snackbar('Failed', 'No images Selected',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: MyAppColors.secondaryColor);
-    }
-    selectedFileCount.value = listImagePath.length;
-  }
-
-  //method to remove images to remove the images from UI.
 
   //method to load all the markers in the map
   createMarkers() {
@@ -125,17 +108,18 @@ class CollectionPointController extends GetxController {
               context: Get.context!,
               builder: (context) => userType.value == UserType.individual
                   ? CollectionPointBottomSheet()
-                  : const DisposalPointBottomsheet(),
+                  : DisposalPointBottomSheet(),
             );
           },
         ),
       );
-      debugPrint('elementmap');
+      debugPrint('elementmap ${userType.value}');
     }
   }
 
   //method to ask user to allow the app use their device location
   Future<LatLng> getCurrentLocation() async {
+    isloading.value = true;
     debugPrint('Location: Start get location');
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
@@ -161,6 +145,7 @@ class CollectionPointController extends GetxController {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     debugPrint('Location: Finish get location');
+    isloading.value = false;
     return LatLng(position.latitude, position.longitude);
   }
 
@@ -193,7 +178,7 @@ class CollectionPointController extends GetxController {
   }
 
   //here we are creating the method to save data to firebase
-  void addDisposeItem() async {
+  Future<void> addDisposeItem() async {
     selectedCategory.value = controllerItem.selectedItem.value!.category;
     itemName.value = controllerItem.selectedItem.value!.itemName;
     brandName.value = controllerItem.controllerBrand.text;
@@ -209,8 +194,10 @@ class CollectionPointController extends GetxController {
       collectionPointLat: double.parse(selectedLat.value),
       collectionPointLng: double.parse(selectedLng.value),
       collectionPointName: collectionPointName.value,
-      imageUrls: listImagePath,
+      imageUrls: imageController.uploadedImageUrls,
     );
+
+    //method to check validation rules are followed.
     if (_isValid()) {
       isloading.value = true;
       try {

@@ -1,7 +1,7 @@
 import 'package:ebin/controllers/auth_controller.dart';
 import 'package:ebin/enums/user_type.dart';
 import 'package:ebin/views/onboarding1.dart';
-import 'package:ebin/views/widgets/usecasecontainer.dart';
+import 'package:ebin/views/widgets/individuals/usecasecontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,8 +1,10 @@
 import 'package:ebin/constants/colors.dart';
-import 'package:ebin/views/dismantlers/dismanter_dispose.dart';
+import 'package:ebin/views/dismantlers/dismantler_activity_page.dart';
+
 import 'package:ebin/views/dismantlers/dismantler_home_page.dart';
-import 'package:ebin/views/dismantlers/dismantler_profile.dart';
 import 'package:ebin/profile_page.dart';
+import 'package:ebin/views/dismantlers/dispose_waste.dart';
+import 'package:ebin/views/individuals/dispose.dart';
 import 'package:flutter/material.dart';
 
 class DismantlerNavigationMenu extends StatefulWidget {
@@ -16,9 +18,8 @@ class DismantlerNavigationMenu extends StatefulWidget {
 class _DismantlerNavigationMenuState extends State<DismantlerNavigationMenu> {
   int index = 0;
   final screens = [
-    const DismantlersHomePage(),
-    const DismantlerDispose(),
-    const DismantlerDispose(),
+    DismantlersHomePage(),
+    IndividualDisposePage(),
     ProfilePage(),
   ];
   @override
@@ -45,13 +46,6 @@ class _DismantlerNavigationMenuState extends State<DismantlerNavigationMenu> {
               label: 'Dispose',
               selectedIcon: Icon(
                 Icons.add,
-                color: MyAppColors.onSurfaceVariant,
-              )),
-          NavigationDestination(
-              icon: Icon(Icons.local_activity_outlined),
-              label: 'Activity',
-              selectedIcon: Icon(
-                Icons.local_activity,
                 color: MyAppColors.onSurfaceVariant,
               )),
           NavigationDestination(

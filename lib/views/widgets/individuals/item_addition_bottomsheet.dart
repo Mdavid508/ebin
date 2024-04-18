@@ -66,8 +66,9 @@ class ItemAdditionBottomSheet extends StatelessWidget {
                       TextFormField(
                         controller: controller.controllerEol,
                         readOnly: true,
-                        decoration:
-                            const InputDecoration(labelText: 'End of Life'),
+                        decoration: const InputDecoration(
+                          labelText: 'End of Life',
+                        ),
                       ),
                       const SizedBox(
                         height: 16,

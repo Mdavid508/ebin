@@ -6,6 +6,8 @@ class Dismantler {
   String companyName;
   double pricePerKg;
   List<String> imageUrls;
+  double? disposedWeight;
+  double? collectedWeight;
 
   Dismantler({
     required this.userId,
@@ -14,6 +16,8 @@ class Dismantler {
     required this.companyName,
     required this.pricePerKg,
     required this.imageUrls,
+    this.disposedWeight,
+    this.collectedWeight,
   });
 
   // HashMap to save to firebase
@@ -25,6 +29,8 @@ class Dismantler {
       "companyName": companyName,
       "pricePerKg": pricePerKg,
       "imageUrls": imageUrls,
+      'disposedWeight': disposedWeight,
+      'collectedWeight': collectedWeight,
     };
   }
 
@@ -34,9 +40,13 @@ class Dismantler {
       userId: snapshot['userId'],
       lat: snapshot['lat'],
       lng: snapshot['lng'],
+      disposedWeight: snapshot['disposedWeight'],
+      collectedWeight: snapshot['collectedWeight'],
       companyName: snapshot['companyName'],
       pricePerKg: snapshot['pricePerKg'],
-      imageUrls: snapshot['imageUrls'],
+      imageUrls: List<String>.from(
+        snapshot['imageUrls'],
+      ),
     );
   }
 

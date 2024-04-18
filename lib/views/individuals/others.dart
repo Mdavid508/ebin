@@ -5,9 +5,9 @@ import 'package:ebin/controllers/item_eol_controller.dart';
 import 'package:ebin/models/category.dart';
 import 'package:ebin/views/individuals/dispose_item.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
-import 'package:ebin/views/widgets/category_item_builder.dart';
-import 'package:ebin/views/widgets/item_addition_bottomsheet.dart';
-import 'package:ebin/views/widgets/item_data.dart';
+import 'package:ebin/views/widgets/individuals/category_item_builder.dart';
+import 'package:ebin/views/widgets/individuals/item_addition_bottomsheet.dart';
+import 'package:ebin/views/widgets/individuals/item_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -28,17 +28,7 @@ class MyOthersDevicesSection extends StatelessWidget {
               children: [
                 const SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Row(children: [
-                    Wrap(
-                      alignment: WrapAlignment.start,
-                      spacing: 16,
-                      children: [
-                        Chip(label: Text('Headphones')),
-                        Chip(label: Text('Radios')),
-                        Chip(label: Text('DVDs')),
-                      ],
-                    ),
-                  ]),
+                  child: Row(children: []),
                 ),
                 const SizedBox(
                   height: 16,

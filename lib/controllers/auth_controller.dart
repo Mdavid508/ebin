@@ -3,6 +3,7 @@ import 'package:ebin/enums/user_type.dart';
 import 'package:ebin/models/user.dart';
 import 'package:ebin/views/authenication.dart';
 import 'package:ebin/views/collectors/collector_navigation_menu.dart';
+import 'package:ebin/views/collectors/collectors_home_page.dart';
 import 'package:ebin/views/dismantlers/dismantler_navigation_menu.dart';
 import 'package:ebin/views/dismantlers/dismantlers_registration.dart';
 import 'package:ebin/views/individuals/navigation_menu.dart';
@@ -125,7 +126,7 @@ class AuthController extends GetxController {
         );
       } else if (userType.value == UserType.collector) {
         Get.to(
-          const CollectorNavigationMenu(),
+          CollectorsHomePage(),
         );
       }
     } catch (e) {

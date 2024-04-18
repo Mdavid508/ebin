@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ebin/controllers/auth_controller.dart';
+import 'package:ebin/controllers/notification_controller.dart';
 import 'package:ebin/models/end_of_life.dart';
 import 'package:ebin/models/item_eol.dart';
 import 'package:ebin/models/category.dart';
+import 'package:ebin/models/notification_model.dart';
 import 'package:ebin/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ItemsController extends GetxController {
-  AuthController authController = Get.find();
+  AuthController authController = Get.put(AuthController());
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final List<ItemEol> items = [
@@ -179,6 +181,8 @@ class ItemsController extends GetxController {
   TextEditingController controllerDate = TextEditingController();
   TextEditingController controllerBrand = TextEditingController();
 
+  final notificationController = Get.put(NotificationController());
+
   @override
   void onInit() {
     ever(selectedItem, (_) {
@@ -252,6 +256,7 @@ class ItemsController extends GetxController {
     brandName.value = controllerBrand.text;
     itemName.value = selectedItem.value!.itemName;
     category.value = selectedItem.value!.category;
+
     eol.value = selectedItem.value!.eol.toString();
     yearOfPurchase.value = selectedDate.value.year.toString();
     EndOfLife endOfLife = EndOfLife(
@@ -259,6 +264,7 @@ class ItemsController extends GetxController {
       userId: userId.value,
       category: category.value,
       eol: eol.value.toString(),
+      isDisposed: false,
       yearOfPurchase: yearOfPurchase.value,
       brandName: brandName.value,
     );
@@ -291,6 +297,21 @@ class ItemsController extends GetxController {
     try {
       final snapshot = await _firestore.collection('eol').get();
       final itemsData = EndOfLife.fromQuerySnapshot(snapshot);
+      for (var element in itemsData) {
+        if (remainingPeriod(element)) {
+          String id = _firestore.collection('notifications').doc().id;
+          NotificationModel notification = NotificationModel(
+              id: id,
+              senderId: '',
+              senderName: '',
+              receiverId: authController.userId.value,
+              createdAt: DateTime.now(),
+              title: 'End of Life Reached',
+              description:
+                  'Please Dispose ${element.brandName} its end of life has been reached, find alternative ways to dispose');
+          notificationController.createNotification(notification);
+        }
+      }
       itemData.assignAll(itemsData);
     } catch (e) {
       Get.snackbar(
@@ -300,6 +321,17 @@ class ItemsController extends GetxController {
       );
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  bool remainingPeriod(EndOfLife element) {
+    var currentYear = DateTime.now().year;
+    var newTime = int.parse(element.yearOfPurchase) + int.parse(element.eol);
+
+    if (newTime <= currentYear) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

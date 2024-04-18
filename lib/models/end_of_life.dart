@@ -6,6 +6,7 @@ class EndOfLife {
   String userId;
   String category;
   String eol;
+  bool? isDisposed;
   String yearOfPurchase;
   String brandName;
 
@@ -15,6 +16,7 @@ class EndOfLife {
     required this.userId,
     required this.category,
     required this.eol,
+    this.isDisposed,
     required this.yearOfPurchase,
     required this.brandName,
   });

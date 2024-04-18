@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:ebin/Assets/Theme/custom_theme/text_theme.dart';
 import 'package:ebin/controllers/collectionpoint_controller.dart';
-import 'package:ebin/controllers/dismantlers_registration.dart';
+import 'package:ebin/controllers/collectors_controller.dart';
+import 'package:ebin/controllers/dismantlers_controller.dart';
 import 'package:ebin/controllers/image_controller.dart';
-import 'package:ebin/views/dismantlers/dismantler_navigation_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DismantlersRegistration extends StatelessWidget {
   DismantlersRegistration({super.key});
   final imageController = Get.put(ImageController());
-  final controller = Get.put(DismantlersRegistrationController());
+  final controller = Get.put(DismantlersController());
   final controllerLocation = Get.put(CollectionPointController());
+  final controllerCollector = Get.put(CollectorsController());
 
   @override
   Widget build(BuildContext context) {
@@ -55,36 +56,39 @@ class DismantlersRegistration extends StatelessWidget {
                 const SizedBox(
                   height: 16,
                 ),
-                Obx(
-                  () => TextFormField(
-                    onTap: () async {
+                const Text('Select the your Stores Location'),
+                OutlinedButton.icon(
+                    onPressed: () async {
                       controller.dismantlerLocation.value =
                           await controllerLocation.getCurrentLocation();
                     },
+                    icon: controllerLocation.isloading.value
+                        ? const CircularProgressIndicator()
+                        : const Icon(Icons.upload),
+                    label: const Text('Select Location')),
+                Obx(
+                  () => TextFormField(
                     readOnly: true,
                     decoration: InputDecoration(
-                      hintText:
-                          '${controller.dismantlerLocation.value?.latitude.toString()} , ${controller.dismantlerLocation.value?.longitude.toString()}',
-                      icon: const Icon(Icons.add),
-                      helperText:
-                          'Make sure you are in the Store Location, Current Location will be picked',
-                    ),
+                        hintText:
+                            '${controller.dismantlerLocation.value?.latitude.toString()} , ${controller.dismantlerLocation.value?.longitude.toString()}',
+                        helperText: 'Current Location will be picked',
+                        labelText: 'Stores Location'),
                   ),
                 ),
                 const SizedBox(
                   height: 16,
                 ),
-                TextFormField(
-                  controller: controller.controllerLocation,
-                  onTap: () {
-                    imageController.selectImages();
-                  },
-                  readOnly: true,
-                  decoration: const InputDecoration(
-                    icon: Icon(Icons.upload),
-                    helperText: 'Upload a Maximum of 3 images',
-                  ),
+                Text(
+                  'Upload a maximum of three images',
+                  style: textTheme.bodyLarge,
                 ),
+                OutlinedButton.icon(
+                    onPressed: () {
+                      imageController.selectImages();
+                    },
+                    icon: const Icon(Icons.upload),
+                    label: const Text('Upload Images')),
                 const SizedBox(
                   height: 16,
                 ),
@@ -95,9 +99,10 @@ class DismantlersRegistration extends StatelessWidget {
                           shrinkWrap: true,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  mainAxisSpacing: 8,
-                                  crossAxisSpacing: 8),
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 8,
+                            crossAxisSpacing: 8,
+                          ),
                           itemCount: imageController.selectedFileCount.value,
                           itemBuilder: (context, index) {
                             return Image.file(
@@ -119,6 +124,8 @@ class DismantlersRegistration extends StatelessWidget {
                       onPressed: () async {
                         await imageController.uploadImages();
                         await controller.addDismantlerDetails();
+                        await controller.getDismantlerDetails();
+                        await controllerCollector.fetchAllLocationData();
                         imageController.imageFileList?.clear();
                       },
                       icon: imageController.isloading.value ||

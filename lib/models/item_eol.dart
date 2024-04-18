@@ -3,6 +3,7 @@ class ItemEol {
   final String url;
   final int eol;
   final String category;
+
   final String? yearofPurchase;
 
 //constructor of this class.
